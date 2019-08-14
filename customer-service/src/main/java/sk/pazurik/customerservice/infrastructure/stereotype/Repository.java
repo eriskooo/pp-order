@@ -7,7 +7,7 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import javax.annotation.sql.DataSourceDefinition;
+import javax.transaction.Transactional;
 
 /**
  * Stereotype for a stateless component that provides database/datasource access.
@@ -16,12 +16,7 @@ import javax.annotation.sql.DataSourceDefinition;
 @ApplicationScoped
 @Retention(RUNTIME)
 @Target(TYPE)
-@DataSourceDefinition(
-        name = "java:app/pporder/MyDS",
-        className = "org.apache.derby.jdbc.ClientDriver",
-        url = "jdbc:derby://localhost:1527/pporder",
-        user = "appuser",
-        password = "password")
+@Transactional
 public @interface Repository {
 
 }

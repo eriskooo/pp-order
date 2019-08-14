@@ -25,7 +25,8 @@ public class ProductResource {
     @GET
     public Response getProducts() {
         logger.info("called getProducts");
-        // todo: call productService
+        
+        productService.getAllProducts();
 
         return Response.ok().status(Response.Status.OK).build();
     }

@@ -4,10 +4,12 @@ import sk.pazurik.customerservice.infrastructure.stereotype.Service;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
+import javax.inject.Inject;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    @Inject
     ProductRepository repository;
 
     @Override
@@ -29,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
         productEntity.setPrice_wo_VAT(productDTO.getPrice_wo_VAT());
         productEntity.setPrice_w_VAT(productDTO.getPrice_w_VAT());
         productEntity.setEan(productDTO.getEan());
-        //productEntity.setPicture(productDTO.getPicture());
+        productEntity.setPicture(productDTO.getPicture());
         
         repository.saveProduct(productEntity);
     }

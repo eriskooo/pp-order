@@ -29,6 +29,10 @@ public class ProductDTO extends AbstractValueObject {
     
     private byte[] picture;
     
+    public ProductDTO() {
+        super();
+    }
+    
     // alebo builder, jak je libo
     public ProductDTO(ProductEntity entity) {
         id = entity.getId();
