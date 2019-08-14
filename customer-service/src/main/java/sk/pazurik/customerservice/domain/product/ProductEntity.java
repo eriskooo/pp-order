@@ -10,9 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQuery;
 
 @Entity
+@NamedQuery(name = ProductEntity.GET_ALL_PRODUCTS, query = "select p from ProductEntity p")
 public class ProductEntity implements Serializable {
+    
+    public static final String GET_ALL_PRODUCTS = "Product.GetProducts";
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,0 +1,7 @@
+{
+    "name" : "prod1",
+    "description" : "desc1",
+    "price_wo_VAT" : "10",
+    "price_w_VAT" : "12",
+    "ean" : "1234567890123"
+}

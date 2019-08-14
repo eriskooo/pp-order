@@ -1,5 +1,7 @@
 package sk.pazurik.customerservice.application.product;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import org.slf4j.Logger;
 import sk.pazurik.customerservice.domain.product.ProductService;
 
@@ -23,12 +25,12 @@ public class ProductResource {
     private ProductService productService;
 
     @GET
-    public Response getProducts() {
-        logger.info("called getProducts");
+    public Response getAllProducts() {
+        logger.info("called getAllProducts");
         
-        productService.getAllProducts();
+        Collection<ProductDTO> products = productService.getAllProducts();
 
-        return Response.ok().status(Response.Status.OK).build();
+        return Response.ok(products).status(Response.Status.OK).build();
     }
 
     @GET

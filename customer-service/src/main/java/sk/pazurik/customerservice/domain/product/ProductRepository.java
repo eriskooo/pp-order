@@ -13,7 +13,7 @@ public class ProductRepository {
     EntityManager entityManager;
 
     public Collection<ProductEntity> getAllProducts() {
-        return null;
+        return entityManager.createNamedQuery(ProductEntity.GET_ALL_PRODUCTS, ProductEntity.class).getResultList();
     }
 
     public ProductEntity getProductById() {
