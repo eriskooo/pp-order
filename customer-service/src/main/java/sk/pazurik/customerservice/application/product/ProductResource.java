@@ -54,4 +54,23 @@ public class ProductResource {
 
         return Response.ok(product.getId()).status(Response.Status.CREATED).build();
     }
+    
+    @PUT
+    public Response updateProduct(@Valid ProductDTO product) {
+        logger.info("called updateProduct");
+
+        productService.saveProduct(product);
+
+        return Response.ok(product.getId()).status(Response.Status.OK).build();
+    }
+    
+    @DELETE
+    @Path("{id}")
+    public Response deleteProduct(@PathParam("id") @NotNull Long id) {
+        logger.info("called deleteProduct");
+
+        productService.deleteProduct(id);
+
+        return Response.ok().status(Response.Status.OK).build();
+    }
 }

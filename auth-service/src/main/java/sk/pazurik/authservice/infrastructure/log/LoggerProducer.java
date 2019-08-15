@@ -1,9 +1,9 @@
 package sk.pazurik.authservice.infrastructure.log;
 
+import javax.enterprise.context.Dependent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
 
@@ -11,7 +11,7 @@ import javax.enterprise.inject.spi.InjectionPoint;
 /**
  * Produces logger with set injection point name.
  */
-@RequestScoped
+@Dependent
 public class LoggerProducer {
 
     @Produces

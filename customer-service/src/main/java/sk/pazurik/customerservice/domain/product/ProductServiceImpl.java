@@ -40,6 +40,10 @@ public class ProductServiceImpl implements ProductService {
         repository.saveProduct(productEntity);
 
         logger.info("saveProduct ok, {}", productEntity);
+    }
 
+    @Override
+    public void deleteProduct(Long id) {
+        repository.deleteProduct(id);
     }
 }

@@ -33,4 +33,9 @@ public class ProductRepository {
             logger.info("merged, {}" ,product);
         }
     }
+
+    public void deleteProduct(Long id) {
+        ProductEntity productEntity = entityManager.find(ProductEntity.class, id);
+        entityManager.remove(productEntity);
+    }
 }
