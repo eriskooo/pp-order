@@ -5,7 +5,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 public class EntityManagerProducer {
+
     @Produces
-    @PersistenceContext(unitName = "pu")
+    @PersistenceContext
     EntityManager entityManager;
 }

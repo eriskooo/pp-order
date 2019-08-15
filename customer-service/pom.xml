@@ -23,9 +23,6 @@
         <version.junit>4.12</version.junit>
         <version.assertj>3.9.1</version.assertj>
         <version.mockito>2.23.4</version.mockito>
-
-        <version.hibernate-validator>5.2.4.Final</version.hibernate-validator>
-        <version.hibernate-EntityManager>5.2.16.Final</version.hibernate-EntityManager>
     </properties>
 
     <dependencies>
@@ -75,27 +72,6 @@
             <version>2.29</version>
             <scope>test</scope>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>1.4.199</version>
-        </dependency>
-
-        <!-- hibernate -->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${version.hibernate-EntityManager}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${version.hibernate-validator}</version>
-        </dependency>
-
-
     </dependencies>
 
     <build>

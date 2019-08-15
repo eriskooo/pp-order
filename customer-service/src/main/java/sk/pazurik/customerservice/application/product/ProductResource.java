@@ -52,8 +52,6 @@ public class ProductResource {
 
         productService.saveProduct(product);
 
-        logger.info("created Product, id = {}", product.getId());
-
         return Response.ok(product.getId()).status(Response.Status.CREATED).build();
     }
 }
