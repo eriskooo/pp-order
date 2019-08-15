@@ -1,44 +1,39 @@
 package sk.pazurik.customerservice.domain.product;
 
-import java.io.Serializable;
+import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Objects;
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.NamedQuery;
+import java.util.Arrays;
 
 @Entity
 @NamedQuery(name = ProductEntity.GET_ALL_PRODUCTS, query = "select p from ProductEntity p")
-public class ProductEntity implements Serializable {
-    
+public class ProductEntity extends AbstractEntity<Long> {
+
     public static final String GET_ALL_PRODUCTS = "Product.GetProducts";
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
-    
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String name;
-    
+
     private String description;
-    
+
     private BigDecimal price_wo_VAT;
-    
+
     private BigDecimal price_w_VAT;
-    
+
     private String ean;
-    
+
     @Lob
     @Basic(fetch = FetchType.LAZY)
-    private byte[] picture;    
+    private byte[] picture;
 
     public ProductEntity() {
+        super();
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -93,5 +88,18 @@ public class ProductEntity implements Serializable {
 
     public void setPicture(byte[] picture) {
         this.picture = picture;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price_wo_VAT=" + price_wo_VAT +
+                ", price_w_VAT=" + price_w_VAT +
+                ", ean='" + ean + '\'' +
+                ", picture=" + Arrays.toString(picture) +
+                '}';
     }
 }

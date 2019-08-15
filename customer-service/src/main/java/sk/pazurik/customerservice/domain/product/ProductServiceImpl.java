@@ -18,8 +18,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO getProductById() {
-        return new ProductDTO(repository.getProductById());
+    public ProductDTO getProductById(Long id) {
+        return new ProductDTO(repository.getProductById(id));
     }
     
     @Override

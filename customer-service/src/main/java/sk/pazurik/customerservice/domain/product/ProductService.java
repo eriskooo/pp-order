@@ -7,7 +7,7 @@ public interface ProductService {
 
     Collection<ProductDTO> getAllProducts();
 
-    ProductDTO getProductById();
+    ProductDTO getProductById(Long id);
     
     void saveProduct(ProductDTO product);
 }
