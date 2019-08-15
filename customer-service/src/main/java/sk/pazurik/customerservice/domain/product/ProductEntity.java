@@ -10,7 +10,7 @@ import java.util.Arrays;
 @NamedQuery(name = ProductEntity.GET_ALL_PRODUCTS, query = "select p from ProductEntity p")
 public class ProductEntity extends AbstractEntity<Long> {
 
-    public static final String GET_ALL_PRODUCTS = "Product.GetProducts";
+    public static final String GET_ALL_PRODUCTS = "GetAllProducts";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +33,18 @@ public class ProductEntity extends AbstractEntity<Long> {
     public ProductEntity() {
         super();
     }
+    
+    public ProductEntity(ProductDTO dto) {
+        id = dto.getId();
+        name = dto.getName();
+        description = dto.getDescription();
+        price_wo_VAT = dto.getPrice_wo_VAT();
+        price_w_VAT = dto.getPrice_w_VAT();
+        ean = dto.getEan();
+        picture = dto.getPicture();
+    }
 
+    @Override
     public Long getId() {
         return id;
     }

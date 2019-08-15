@@ -28,17 +28,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void saveProduct(ProductDTO productDTO) {
-        ProductEntity productEntity = new ProductEntity();
-        productEntity.setId(productDTO.getId());
-        productEntity.setName(productDTO.getName());
-        productEntity.setDescription(productDTO.getDescription());
-        productEntity.setPrice_wo_VAT(productDTO.getPrice_wo_VAT());
-        productEntity.setPrice_w_VAT(productDTO.getPrice_w_VAT());
-        productEntity.setEan(productDTO.getEan());
-        productEntity.setPicture(productDTO.getPicture());
-
+        ProductEntity productEntity = new ProductEntity(productDTO);
         repository.saveProduct(productEntity);
-
         logger.info("saveProduct ok, {}", productEntity);
     }
 

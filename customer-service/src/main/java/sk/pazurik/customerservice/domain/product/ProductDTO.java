@@ -1,6 +1,7 @@
 package sk.pazurik.customerservice.domain.product;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
@@ -33,7 +34,6 @@ public class ProductDTO extends AbstractValueObject {
         super();
     }
     
-    // alebo builder, jak je libo
     public ProductDTO(ProductEntity entity) {
         id = entity.getId();
         name = entity.getName();
@@ -107,13 +107,14 @@ public class ProductDTO extends AbstractValueObject {
 
     @Override
     public String toString() {
-        return "ProductDTO{"
-                + "id='" + id + '\''
-                + ", name='" + name + '\''
-                + ", description='" + description + '\''
-                + ", price_wo_VAT='" + price_wo_VAT + '\''
-                + ", price_w_VAT='" + price_w_VAT + '\''
-                + ", ean='" + ean + '\''
-                + '}';
+        return "ProductDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price_wo_VAT=" + price_wo_VAT +
+                ", price_w_VAT=" + price_w_VAT +
+                ", ean='" + ean + '\'' +
+                ", picture=" + Arrays.toString(picture) +
+                '}';
     }
 }

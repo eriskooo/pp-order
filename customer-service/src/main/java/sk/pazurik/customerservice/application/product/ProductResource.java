@@ -1,12 +1,10 @@
 package sk.pazurik.customerservice.application.product;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.slf4j.Logger;
 import sk.pazurik.customerservice.domain.product.ProductService;
 
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
