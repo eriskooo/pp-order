@@ -15,6 +15,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
+        <version.deltaspike>1.8.1</version.deltaspike>
+
         <version.jwt>3.3.0</version.jwt>
 
         <version.slf4j>1.7.26</version.slf4j>
@@ -33,6 +35,20 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Deltaspike -->
+        <dependency>
+            <groupId>org.apache.deltaspike.core</groupId>
+            <artifactId>deltaspike-core-api</artifactId>
+            <version>${version.deltaspike}</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.deltaspike.core</groupId>
+            <artifactId>deltaspike-core-impl</artifactId>
+            <version>${version.deltaspike}</version>
+            <scope>runtime</scope>
+        </dependency>
         <!-- JSON Web Token -->
         <dependency>
             <groupId>com.auth0</groupId>

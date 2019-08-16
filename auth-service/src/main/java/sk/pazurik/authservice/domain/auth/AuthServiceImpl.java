@@ -11,6 +11,10 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
+import static sk.pazurik.authservice.infrastructure.security.JwtClaims.CUSTOM_CLAIM_ROLES;
+import static sk.pazurik.authservice.infrastructure.security.JwtClaims.OPEN_ID_STANDARD_CLAIM_FIRSTNAME;
+import static sk.pazurik.authservice.infrastructure.security.JwtClaims.OPEN_ID_STANDARD_CLAIM_LASTNAME;
+
 @Service
 public class AuthServiceImpl implements AuthService {
 
@@ -48,6 +52,9 @@ public class AuthServiceImpl implements AuthService {
                 .withExpiresAt(expiresAt)
                 .withNotBefore(notBefore)
                 .withSubject(credentialDTO.getUsername())
+                .withClaim(OPEN_ID_STANDARD_CLAIM_FIRSTNAME, credentialDTO.getUsername())
+                .withClaim(OPEN_ID_STANDARD_CLAIM_LASTNAME, credentialDTO.getUsername())
+                .withClaim(CUSTOM_CLAIM_ROLES, "admin")
                 .sign(Algorithm.HMAC256(secretKey));
     }
 
