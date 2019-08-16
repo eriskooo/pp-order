@@ -6,6 +6,7 @@ import sk.pazurik.customerservice.infrastructure.stereotype.Service;
 import javax.inject.Inject;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import javax.persistence.EntityNotFoundException;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -22,8 +23,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO getProductById(Long id) {
-        return new ProductDTO(repository.getProductById(id));
+    public ProductDTO getProductById(Long id) throws EntityNotFoundException {
+        ProductEntity productEntity = repository.getProductById(id);
+        if (productEntity == null) {
+            throw new EntityNotFoundException("Product not found");
+        } else {
+            return new ProductDTO(productEntity);
+        }
     }
 
     @Override
@@ -32,9 +38,21 @@ public class ProductServiceImpl implements ProductService {
         repository.saveProduct(productEntity);
         logger.info("saveProduct ok, {}", productEntity);
     }
-
+    
     @Override
-    public void deleteProduct(Long id) {
-        repository.deleteProduct(id);
+    public void updateProduct(ProductDTO productDTO) {
+        ProductEntity productEntity = new ProductEntity(productDTO);
+         if (!repository.updateProduct(productEntity)) {
+            throw new EntityNotFoundException("Product not found");
+         }
+         logger.info("updateProduct ok, {}", productEntity);
+    }
+    
+    @Override
+    public void deleteProduct(Long id) throws EntityNotFoundException {
+        if (!repository.deleteProduct(id)) {
+            throw new EntityNotFoundException("Product not found");
+        }
+        logger.info("deleteProduct ok, {}", id);
     }
 }

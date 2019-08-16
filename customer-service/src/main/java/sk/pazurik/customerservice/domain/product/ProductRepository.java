@@ -33,9 +33,25 @@ public class ProductRepository {
             logger.info("merged, {}" ,product);
         }
     }
+    
+    public boolean updateProduct(ProductEntity product) {
+        if (product.getId() != null) {
+            ProductEntity productEntity = entityManager.find(ProductEntity.class, product.getId());
+            if (productEntity != null) {
+                entityManager.merge(product);
+                return true;
+            }
+        }
+        return false;
+    }
 
-    public void deleteProduct(Long id) {
+    public boolean deleteProduct(Long id) {
         ProductEntity productEntity = entityManager.find(ProductEntity.class, id);
-        entityManager.remove(productEntity);
+        if (productEntity == null) {
+            return false;
+        } else {
+            entityManager.remove(productEntity);
+            return true;
+        }
     }
 }

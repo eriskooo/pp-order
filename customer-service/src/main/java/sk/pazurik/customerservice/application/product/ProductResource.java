@@ -57,7 +57,7 @@ public class ProductResource {
     public Response updateProduct(@Valid ProductDTO product) {
         logger.info("called updateProduct");
 
-        productService.saveProduct(product);
+        productService.updateProduct(product);
 
         return Response.ok(product.getId()).status(Response.Status.OK).build();
     }
