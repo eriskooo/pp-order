@@ -4,16 +4,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import sk.pazurik.customerservice.domain.customer.CustomerEntity;
 import sk.pazurik.customerservice.domain.product.ProductEntity;
 import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
 
@@ -32,7 +28,8 @@ public class OrderEntity extends AbstractEntity<Long> {
 
     private BigDecimal price_w_VAT;
     
-    private Map<ProductEntity, Integer> productQuantity = new HashMap<>();
+    @OneToMany
+    private Collection<ProductEntity> products = new ArrayList<>();
     
     public OrderEntity() {
         super();
@@ -73,5 +70,13 @@ public class OrderEntity extends AbstractEntity<Long> {
 
     public void setPrice_w_VAT(BigDecimal price_w_VAT) {
         this.price_w_VAT = price_w_VAT;
+    }
+
+    public Collection<ProductEntity> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Collection<ProductEntity> products) {
+        this.products = products;
     }
 }

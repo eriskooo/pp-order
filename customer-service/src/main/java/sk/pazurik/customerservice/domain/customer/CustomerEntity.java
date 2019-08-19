@@ -1,7 +1,10 @@
 package sk.pazurik.customerservice.domain.customer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import javax.persistence.*;
+import sk.pazurik.customerservice.domain.order.OrderEntity;
 import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
 
 @Entity
@@ -21,11 +24,14 @@ public class CustomerEntity extends AbstractEntity<Long> {
     private String phone;
     
     private String email;
-    
+
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] photo;
-
+    
+    @OneToMany
+    private Collection<OrderEntity> orders = new ArrayList<>();
+    
     public CustomerEntity() {
         super();
     }
@@ -86,6 +92,14 @@ public class CustomerEntity extends AbstractEntity<Long> {
 
     public void setPhoto(byte[] photo) {
         this.photo = photo;
+    }
+
+    public Collection<OrderEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Collection<OrderEntity> orders) {
+        this.orders = orders;
     }
     
     @Override
