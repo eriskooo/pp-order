@@ -1,11 +1,14 @@
 package sk.pazurik.customerservice.domain.customer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import sk.pazurik.customerservice.domain.order.OrderDTO;
 import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
-
 
 public class CustomerDTO extends AbstractValueObject {
 
@@ -25,6 +28,8 @@ public class CustomerDTO extends AbstractValueObject {
     
     private byte[] photo;
 
+    private Collection<OrderDTO> orders = new ArrayList<>();
+    
     public CustomerDTO() {
         super();
     }
@@ -35,7 +40,8 @@ public class CustomerDTO extends AbstractValueObject {
         surname = entity.getSurname();
         phone = entity.getPhone();
         email = entity.getEmail();
-        photo = entity.getPhoto();        
+        photo = entity.getPhoto();
+        orders = entity.getOrders().stream().map(OrderDTO::new).collect(Collectors.toList());
     }
 
     public Long getId() {
@@ -84,8 +90,16 @@ public class CustomerDTO extends AbstractValueObject {
 
     public void setPhoto(byte[] photo) {
         this.photo = photo;
-    }    
-    
+    }
+
+    public Collection<OrderDTO> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Collection<OrderDTO> orders) {
+        this.orders = orders;
+    }
+
     @Override
     protected Object[] values() {
         return new Object[]{id, name, surname, phone, email, photo};

@@ -3,6 +3,7 @@ package sk.pazurik.customerservice.domain.customer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 import javax.persistence.*;
 import sk.pazurik.customerservice.domain.order.OrderEntity;
 import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
@@ -43,6 +44,7 @@ public class CustomerEntity extends AbstractEntity<Long> {
         phone = dto.getPhone();
         email = dto.getEmail();
         photo = dto.getPhoto();
+        orders = dto.getOrders().stream().map(OrderEntity::new).collect(Collectors.toList());
     }
 
     @Override

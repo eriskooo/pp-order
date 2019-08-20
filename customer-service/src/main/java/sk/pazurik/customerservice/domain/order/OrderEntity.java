@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,6 +50,7 @@ public class OrderEntity extends AbstractEntity<Long> {
         orderDate = dto.getOrderDate();
         price_wo_VAT = dto.getPrice_wo_VAT();
         price_w_VAT = dto.getPrice_w_VAT();
+        products = dto.getProducts().stream().map(ProductEntity::new).collect(Collectors.toList());
     }
     
     @Override

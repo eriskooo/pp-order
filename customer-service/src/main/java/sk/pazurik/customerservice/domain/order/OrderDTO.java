@@ -2,11 +2,15 @@ package sk.pazurik.customerservice.domain.order;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.stream.Collectors;
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import sk.pazurik.customerservice.domain.product.ProductDTO;
 import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
 
 public class OrderDTO extends AbstractValueObject {
@@ -24,6 +28,8 @@ public class OrderDTO extends AbstractValueObject {
     @DecimalMin(value = "0.01", message = "Price with VAT must be at least 0.01")
     @Digits(integer=6, fraction=2, message = "Price without VAT must have maximum 6 integral digits and maximum 2 fractional digits")
     private BigDecimal price_w_VAT;
+    
+    private Collection<ProductDTO> products = new ArrayList<>();
 
     public OrderDTO() {
         super();
@@ -34,6 +40,7 @@ public class OrderDTO extends AbstractValueObject {
         orderDate = entity.getOrderDate();
         price_wo_VAT = entity.getPrice_wo_VAT();
         price_w_VAT = entity.getPrice_w_VAT();
+        products = entity.getProducts().stream().map(ProductDTO::new).collect(Collectors.toList());
     }
     
     public Long getId() {
@@ -67,7 +74,15 @@ public class OrderDTO extends AbstractValueObject {
     public void setPrice_w_VAT(BigDecimal price_w_VAT) {
         this.price_w_VAT = price_w_VAT;
     }
-    
+
+    public Collection<ProductDTO> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Collection<ProductDTO> products) {
+        this.products = products;
+    }
+
     @Override
     protected Object[] values() {
         return new Object[]{id, orderDate, price_wo_VAT, price_w_VAT};
