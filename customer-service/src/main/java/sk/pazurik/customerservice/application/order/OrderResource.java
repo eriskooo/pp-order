@@ -31,7 +31,16 @@ public class OrderResource {
     private OrderService orderService;
 
     @GET
-    @Path("{minPrice}")
+    public Response getAllOrders() {
+        logger.info("called getAllProducts");
+
+        Collection<OrderDTO> orders = orderService.getAllOrders();
+
+        return Response.ok(orders).status(Response.Status.OK).build();
+    }
+    
+    @GET
+    @Path("getOrdersWithMinPrice{minPrice}")
     public Response getOrders(@PathParam("minPrice") @NotNull BigDecimal minPrice) {
         logger.info("called getOrders, {}", minPrice);
 

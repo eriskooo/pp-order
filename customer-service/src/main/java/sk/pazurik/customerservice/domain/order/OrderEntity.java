@@ -4,18 +4,24 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import sk.pazurik.customerservice.domain.customer.CustomerEntity;
 import sk.pazurik.customerservice.domain.product.ProductEntity;
 import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
 
 @Entity
-@NamedQuery(name = OrderEntity.GET_ORDERS, query = "select o from OrderEntity o where o.price_wo_VAT > :greaterThanValue")
+@NamedQuery(name = OrderEntity.GET_ALL_ORDERS, query = "select o from OrderEntity o")
+@NamedQuery(name = OrderEntity.GET_ORDERS, query = "select o from OrderEntity o where o.price_wo_VAT > :minPrice")
 public class OrderEntity extends AbstractEntity<Long> {
+    
+    public static final String GET_ALL_ORDERS = "GetAllOrders";
     public static final String GET_ORDERS = "GetOrders";
     
     @Id
@@ -28,7 +34,10 @@ public class OrderEntity extends AbstractEntity<Long> {
 
     private BigDecimal price_w_VAT;
     
-    @OneToMany
+    @ManyToOne
+    private CustomerEntity customerEntity; 
+    
+    @OneToMany(cascade = CascadeType.ALL)
     private Collection<ProductEntity> products = new ArrayList<>();
     
     public OrderEntity() {
@@ -37,6 +46,9 @@ public class OrderEntity extends AbstractEntity<Long> {
     
     public OrderEntity(OrderDTO dto) {
         id = dto.getId();
+        orderDate = dto.getOrderDate();
+        price_wo_VAT = dto.getPrice_wo_VAT();
+        price_w_VAT = dto.getPrice_w_VAT();
     }
     
     @Override

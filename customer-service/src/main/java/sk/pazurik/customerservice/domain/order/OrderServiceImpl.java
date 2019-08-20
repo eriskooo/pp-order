@@ -2,6 +2,7 @@ package sk.pazurik.customerservice.domain.order;
 
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
@@ -18,8 +19,18 @@ public class OrderServiceImpl implements OrderService {
     OrderRepository repository;
 
     @Override
+    public Collection<OrderDTO> getAllOrders() {
+        return repository.getAllOrders().stream().map(OrderDTO::new).collect(Collectors.toList());
+    }
+    
+    @Override
     public Collection<OrderDTO> getOrders(BigDecimal minPrice) {
-        return repository.getOrders(minPrice).stream().map(OrderDTO::new).collect(Collectors.toList());
+        List<OrderEntity> orderEntities = repository.getOrders(minPrice);
+        if (orderEntities == null || orderEntities.isEmpty()) {
+            throw new EntityNotFoundException("Order not found");
+        } else {
+            return orderEntities.stream().map(OrderDTO::new).collect(Collectors.toList());
+        }
     }
 
    @Override

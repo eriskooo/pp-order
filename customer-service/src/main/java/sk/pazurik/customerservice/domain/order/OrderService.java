@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Collection;
 
 public interface OrderService {
+    Collection<OrderDTO> getAllOrders();
+    
     Collection<OrderDTO> getOrders(BigDecimal minPrice);
 
     OrderDTO getOrderById(Long id);

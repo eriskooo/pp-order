@@ -1,0 +1,11 @@
+{
+    "orderDate" : "2019-09-20",
+    "price_wo_VAT" : "10",
+    "price_w_VAT" : "12",
+    "customer" : "1",
+    "products" : [
+        {"id" : "1", "quantity" : "1"},
+        {"id" : "2", "quantity" : "4"},
+        {"id" : "3", "quantity" : "10"}
+    ]
+}

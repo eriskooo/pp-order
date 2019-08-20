@@ -29,7 +29,7 @@ public class CustomerEntity extends AbstractEntity<Long> {
     @Basic(fetch = FetchType.LAZY)
     private byte[] photo;
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Collection<OrderEntity> orders = new ArrayList<>();
     
     public CustomerEntity() {

@@ -21,7 +21,7 @@ public class CustomerServiceImpl implements CustomerService{
         return repository.getAllCustomers().stream().map(CustomerDTO::new).collect(Collectors.toList());
     }
 
-   @Override
+    @Override
     public CustomerDTO getCustomerById(Long id) throws EntityNotFoundException {
         CustomerEntity customerEntity = repository.getCustomerById(id);
         if (customerEntity == null) {

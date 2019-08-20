@@ -1,0 +1,64 @@
+{
+    "name" : "name1",
+    "surname" : "surname1",
+    "phone" : "+421907907907",
+    "email" : "test@test.com",
+    "orders" : [
+        {
+            "orderDate" : "2019-09-19",
+            "price_wo_VAT" : "10",
+            "price_w_VAT" : "12",
+            "products" : [
+                {
+                    "name" : "prod1",
+                    "description" : "desc1",
+                    "price_wo_VAT" : "10",
+                    "price_w_VAT" : "12",
+                    "ean" : "1234567890123"
+                },
+                {
+                    "name" : "prod2",
+                    "description" : "desc2",
+                    "price_wo_VAT" : "10",
+                    "price_w_VAT" : "12",
+                    "ean" : "1234567890123"
+                },
+                {
+                    "name" : "prod3",
+                    "description" : "desc3",
+                    "price_wo_VAT" : "10",
+                    "price_w_VAT" : "12",
+                    "ean" : "1234567890123"
+                }
+            ]
+        },
+        {
+            "orderDate" : "2019-09-20",
+            "price_wo_VAT" : "20",
+            "price_w_VAT" : "24",
+            "products" : [
+                {
+                    "name" : "prod4",
+                    "description" : "desc4",
+                    "price_wo_VAT" : "10",
+                    "price_w_VAT" : "12",
+                    "ean" : "1234567890123"
+                },
+                {
+                    "name" : "prod5",
+                    "description" : "desc5",
+                    "price_wo_VAT" : "10",
+                    "price_w_VAT" : "12",
+                    "ean" : "1234567890123"
+                },
+                {
+                    "name" : "prod6",
+                    "description" : "desc6",
+                    "price_wo_VAT" : "10",
+                    "price_w_VAT" : "12",
+                    "ean" : "1234567890123"
+                }
+            ]
+        }
+    ]
+}

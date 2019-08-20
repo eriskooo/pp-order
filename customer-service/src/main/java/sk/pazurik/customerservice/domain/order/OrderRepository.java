@@ -14,9 +14,13 @@ public class OrderRepository {
 
     @Inject
     private Logger logger;
+
+    public List<OrderEntity> getAllOrders() {
+        return entityManager.createNamedQuery(OrderEntity.GET_ALL_ORDERS, OrderEntity.class).getResultList();
+    }
     
     public List<OrderEntity> getOrders(BigDecimal minPrice) {
-        return entityManager.createNamedQuery(OrderEntity.GET_ORDERS, OrderEntity.class).getResultList();
+        return entityManager.createNamedQuery(OrderEntity.GET_ORDERS, OrderEntity.class).setParameter("minPrice", minPrice).getResultList();
     }
 
     public OrderEntity getOrderById(Long id) {
