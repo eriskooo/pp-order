@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.validation.constraints.DecimalMin;
@@ -30,9 +32,11 @@ public class OrderDTO extends AbstractValueObject {
     @Digits(integer=6, fraction=2, message = "Price without VAT must have maximum 6 integral digits and maximum 2 fractional digits")
     private BigDecimal price_w_VAT;
     
-    private CustomerDTO customer; 
+//    @ManyToOne
+//    private CustomerDTO customer; 
     
-    private Collection<ProductDTO> products = new ArrayList<>();
+//    private Collection<ProductDTO> products = new ArrayList<>();
+    private Map<Long, Long> products = new HashMap<>();
 
     public OrderDTO() {
         super();
@@ -43,7 +47,7 @@ public class OrderDTO extends AbstractValueObject {
         orderDate = entity.getOrderDate();
         price_wo_VAT = entity.getPrice_wo_VAT();
         price_w_VAT = entity.getPrice_w_VAT();
-        products = entity.getProducts().stream().map(ProductDTO::new).collect(Collectors.toList());
+//        products = entity.getProducts().stream().map(ProductDTO::new).collect(Collectors.toList());
     }
     
     public Long getId() {
@@ -77,7 +81,7 @@ public class OrderDTO extends AbstractValueObject {
     public void setPrice_w_VAT(BigDecimal price_w_VAT) {
         this.price_w_VAT = price_w_VAT;
     }
-
+/*
     public CustomerDTO getCustomer() {
         return customer;
     }
@@ -85,12 +89,12 @@ public class OrderDTO extends AbstractValueObject {
     public void setCustomer(CustomerDTO customer) {
         this.customer = customer;
     }
-
-    public Collection<ProductDTO> getProducts() {
+*/
+    public Map<Long, Long> getProducts() {
         return products;
     }
 
-    public void setProducts(Collection<ProductDTO> products) {
+    public void setProducts(Map<Long, Long> products) {
         this.products = products;
     }
 

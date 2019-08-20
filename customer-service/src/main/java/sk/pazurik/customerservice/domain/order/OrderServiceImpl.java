@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
+import sk.pazurik.customerservice.domain.product.ProductEntity;
+import sk.pazurik.customerservice.domain.product.ProductRepository;
 import sk.pazurik.customerservice.infrastructure.stereotype.Service;
 
 @Service
@@ -17,6 +19,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Inject
     OrderRepository repository;
+    
+    @Inject
+    ProductRepository productRepository;
 
     @Override
     public Collection<OrderDTO> getAllOrders() {
@@ -44,8 +49,16 @@ public class OrderServiceImpl implements OrderService {
     }
     
     @Override
-    public void saveOrder(OrderDTO orderDTO) {
+    public void saveOrder(OrderDTO orderDTO) throws EntityNotFoundException {
         OrderEntity orderEntity = new OrderEntity(orderDTO);
+        for (Long id : orderDTO.getProducts().keySet()) {
+            ProductEntity productEntity = productRepository.getProductById(id);
+            if (productEntity == null) {
+                throw new EntityNotFoundException("Product not found");
+            } else {
+                orderEntity.getProducts().put(productEntity, orderDTO.getProducts().get(id));
+            }
+        }
         repository.saveOrder(orderEntity);
         logger.info("saveOrder ok, {}", orderEntity);
     }
@@ -53,10 +66,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrder(OrderDTO orderDTO) {
         OrderEntity orderEntity = new OrderEntity(orderDTO);
-         if (!repository.updateOrder(orderEntity)) {
-            throw new EntityNotFoundException("Order not found");
-         }
-         logger.info("updateOrder ok, {}", orderEntity);
+        for (Long id : orderDTO.getProducts().keySet()) {
+            ProductEntity productEntity = productRepository.getProductById(id);
+            if (productEntity == null) {
+                throw new EntityNotFoundException("Product not found");
+            } else {
+                orderEntity.getProducts().put(productEntity, orderDTO.getProducts().get(id));
+            }
+            if (!repository.updateOrder(orderEntity)) {
+                throw new EntityNotFoundException("Order not found");
+            }
+        }
+        logger.info("updateOrder ok, {}", orderEntity);
     }
     
     @Override

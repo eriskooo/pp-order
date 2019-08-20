@@ -4,13 +4,17 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKey;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import sk.pazurik.customerservice.domain.customer.CustomerEntity;
@@ -38,8 +42,10 @@ public class OrderEntity extends AbstractEntity<Long> {
     @ManyToOne
     private CustomerEntity customer; 
     
-    @OneToMany(cascade = CascadeType.ALL)
-    private Collection<ProductEntity> products = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @MapKey(name = "id")
+    @ElementCollection
+    private Map<ProductEntity, Long> products = new HashMap<>();
     
     public OrderEntity() {
         super();
@@ -50,7 +56,7 @@ public class OrderEntity extends AbstractEntity<Long> {
         orderDate = dto.getOrderDate();
         price_wo_VAT = dto.getPrice_wo_VAT();
         price_w_VAT = dto.getPrice_w_VAT();
-        products = dto.getProducts().stream().map(ProductEntity::new).collect(Collectors.toList());
+        //products = dto.getProducts().stream().map(ProductEntity::new).collect(Collectors.toList());
     }
     
     @Override
@@ -90,11 +96,11 @@ public class OrderEntity extends AbstractEntity<Long> {
         return customer;
     }
     
-    public Collection<ProductEntity> getProducts() {
+    public Map<ProductEntity, Long> getProducts() {
         return products;
     }
 
-    public void setProducts(Collection<ProductEntity> products) {
+    public void setProducts(Map<ProductEntity, Long> products) {
         this.products = products;
     }
 }
