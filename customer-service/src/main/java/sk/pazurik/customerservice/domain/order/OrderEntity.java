@@ -36,7 +36,7 @@ public class OrderEntity extends AbstractEntity<Long> {
     private BigDecimal price_w_VAT;
     
     @ManyToOne
-    private CustomerEntity customerEntity; 
+    private CustomerEntity customer; 
     
     @OneToMany(cascade = CascadeType.ALL)
     private Collection<ProductEntity> products = new ArrayList<>();
@@ -86,6 +86,10 @@ public class OrderEntity extends AbstractEntity<Long> {
         this.price_w_VAT = price_w_VAT;
     }
 
+    public CustomerEntity getCustomer() {
+        return customer;
+    }
+    
     public Collection<ProductEntity> getProducts() {
         return products;
     }

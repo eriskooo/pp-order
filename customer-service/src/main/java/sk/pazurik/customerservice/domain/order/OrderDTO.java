@@ -10,6 +10,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import sk.pazurik.customerservice.domain.customer.CustomerDTO;
 import sk.pazurik.customerservice.domain.product.ProductDTO;
 import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
 
@@ -28,6 +29,8 @@ public class OrderDTO extends AbstractValueObject {
     @DecimalMin(value = "0.01", message = "Price with VAT must be at least 0.01")
     @Digits(integer=6, fraction=2, message = "Price without VAT must have maximum 6 integral digits and maximum 2 fractional digits")
     private BigDecimal price_w_VAT;
+    
+    private CustomerDTO customer; 
     
     private Collection<ProductDTO> products = new ArrayList<>();
 
@@ -73,6 +76,14 @@ public class OrderDTO extends AbstractValueObject {
 
     public void setPrice_w_VAT(BigDecimal price_w_VAT) {
         this.price_w_VAT = price_w_VAT;
+    }
+
+    public CustomerDTO getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerDTO customer) {
+        this.customer = customer;
     }
 
     public Collection<ProductDTO> getProducts() {
