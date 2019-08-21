@@ -12,10 +12,14 @@ import java.util.Map;
 
 @Entity
 @NamedQuery(name = OrderEntity.GET_ALL_ORDERS, query = "select o from OrderEntity o where o.customer = :customer")
+@NamedQuery(name = OrderEntity.GET_ORDERS_BY_MIN_PRICE, query = "select o from OrderEntity o where o.customer = :customer and o.price_wo_VAT > :minPrice")
+@NamedQuery(name = OrderEntity.GET_ORDERS_BY_ID, query = "select o from OrderEntity o where o.customer = :customer and o.id = :id")
 public class OrderEntity extends AbstractEntity<Long> {
     
     public static final String GET_ALL_ORDERS = "GetAllOrders";
-
+    public static final String GET_ORDERS_BY_MIN_PRICE = "GetOrders";
+    public static final String GET_ORDERS_BY_ID = "GetOrdersById";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +29,7 @@ public class OrderEntity extends AbstractEntity<Long> {
     private BigDecimal price_wo_VAT;
 
     private BigDecimal price_w_VAT;
-    
+
     @ManyToOne
     private CustomerEntity customer; 
     
@@ -85,6 +89,7 @@ public class OrderEntity extends AbstractEntity<Long> {
     public void setCustomer(CustomerEntity customer) {
         this.customer = customer;
     }
+
 
     public Map<ProductEntity, Long> getProducts() {
         return products;
