@@ -2,11 +2,8 @@ package sk.pazurik.customerservice.domain.order;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -42,8 +39,8 @@ public class OrderEntity extends AbstractEntity<Long> {
     @ManyToOne
     private CustomerEntity customer; 
     
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @MapKey(name = "id")
+    @OneToMany(cascade = CascadeType.ALL)
+    @MapKey(name = "id")
     @ElementCollection
     private Map<ProductEntity, Long> products = new HashMap<>();
     
@@ -56,7 +53,6 @@ public class OrderEntity extends AbstractEntity<Long> {
         orderDate = dto.getOrderDate();
         price_wo_VAT = dto.getPrice_wo_VAT();
         price_w_VAT = dto.getPrice_w_VAT();
-        //products = dto.getProducts().stream().map(ProductEntity::new).collect(Collectors.toList());
     }
     
     @Override
@@ -95,7 +91,7 @@ public class OrderEntity extends AbstractEntity<Long> {
     public CustomerEntity getCustomer() {
         return customer;
     }
-    
+
     public Map<ProductEntity, Long> getProducts() {
         return products;
     }

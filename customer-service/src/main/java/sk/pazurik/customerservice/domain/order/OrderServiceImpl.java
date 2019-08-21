@@ -51,12 +51,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void saveOrder(OrderDTO orderDTO) throws EntityNotFoundException {
         OrderEntity orderEntity = new OrderEntity(orderDTO);
-        for (Long id : orderDTO.getProducts().keySet()) {
-            ProductEntity productEntity = productRepository.getProductById(id);
+        for (OrderProductQuantityDTO quantityDTO : orderDTO.getProducts()) {
+            ProductEntity productEntity = productRepository.getProductById(quantityDTO.getProductId());
             if (productEntity == null) {
                 throw new EntityNotFoundException("Product not found");
             } else {
-                orderEntity.getProducts().put(productEntity, orderDTO.getProducts().get(id));
+                orderEntity.getProducts().put(productEntity, quantityDTO.getQuantity());
             }
         }
         repository.saveOrder(orderEntity);
@@ -66,12 +66,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void updateOrder(OrderDTO orderDTO) {
         OrderEntity orderEntity = new OrderEntity(orderDTO);
-        for (Long id : orderDTO.getProducts().keySet()) {
-            ProductEntity productEntity = productRepository.getProductById(id);
+        for (OrderProductQuantityDTO quantityDTO : orderDTO.getProducts()) {
+            ProductEntity productEntity = productRepository.getProductById(quantityDTO.getProductId());
             if (productEntity == null) {
                 throw new EntityNotFoundException("Product not found");
             } else {
-                orderEntity.getProducts().put(productEntity, orderDTO.getProducts().get(id));
+                orderEntity.getProducts().put(productEntity, quantityDTO.getQuantity());
             }
             if (!repository.updateOrder(orderEntity)) {
                 throw new EntityNotFoundException("Order not found");

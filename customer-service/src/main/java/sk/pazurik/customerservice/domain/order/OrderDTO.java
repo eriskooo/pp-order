@@ -4,16 +4,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 import javax.json.bind.annotation.JsonbDateFormat;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import sk.pazurik.customerservice.domain.customer.CustomerDTO;
-import sk.pazurik.customerservice.domain.product.ProductDTO;
+import sk.pazurik.customerservice.domain.product.ProductEntity;
 import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
 
 public class OrderDTO extends AbstractValueObject {
@@ -32,11 +30,9 @@ public class OrderDTO extends AbstractValueObject {
     @Digits(integer=6, fraction=2, message = "Price without VAT must have maximum 6 integral digits and maximum 2 fractional digits")
     private BigDecimal price_w_VAT;
     
-//    @ManyToOne
 //    private CustomerDTO customer; 
     
-//    private Collection<ProductDTO> products = new ArrayList<>();
-    private Map<Long, Long> products = new HashMap<>();
+    private Collection<OrderProductQuantityDTO> products = new ArrayList<>();
 
     public OrderDTO() {
         super();
@@ -47,7 +43,9 @@ public class OrderDTO extends AbstractValueObject {
         orderDate = entity.getOrderDate();
         price_wo_VAT = entity.getPrice_wo_VAT();
         price_w_VAT = entity.getPrice_w_VAT();
-//        products = entity.getProducts().stream().map(ProductDTO::new).collect(Collectors.toList());
+        for (ProductEntity productEntity : entity.getProducts().keySet()) {
+            products.add(new OrderProductQuantityDTO(productEntity.getId(), entity.getProducts().get(productEntity)));
+        }
     }
     
     public Long getId() {
@@ -90,11 +88,11 @@ public class OrderDTO extends AbstractValueObject {
         this.customer = customer;
     }
 */
-    public Map<Long, Long> getProducts() {
+    public Collection<OrderProductQuantityDTO> getProducts() {
         return products;
     }
 
-    public void setProducts(Map<Long, Long> products) {
+    public void setProducts(Collection<OrderProductQuantityDTO> products) {
         this.products = products;
     }
 
