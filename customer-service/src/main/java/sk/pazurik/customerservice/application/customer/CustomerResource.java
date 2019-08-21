@@ -5,6 +5,7 @@ import sk.pazurik.customerservice.domain.customer.CustomerDTO;
 import sk.pazurik.customerservice.domain.customer.CustomerService;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
