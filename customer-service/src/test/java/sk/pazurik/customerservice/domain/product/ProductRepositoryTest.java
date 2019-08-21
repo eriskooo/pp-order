@@ -10,21 +10,32 @@ import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.jboss.shrinkwrap.resolver.api.maven.PomEquippedResolveStage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import sk.pazurik.customerservice.domain.customer.CustomerEntity;
-import sk.pazurik.customerservice.domain.order.OrderEntity;
+import sk.pazurik.customerservice.application.Startup;
+import sk.pazurik.customerservice.domain.customer.*;
+import sk.pazurik.customerservice.domain.order.*;
 import sk.pazurik.customerservice.infrastructure.log.LoggerProducer;
 import sk.pazurik.customerservice.infrastructure.persistence.EntityManagerProducer;
 
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.time.LocalDate;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(Arquillian.class)
 public class ProductRepositoryTest {
 
     @Inject
-    ProductRepository productRepository;
+    ProductService productService;
+
+    @Inject
+    CustomerService customerServce;
+
+    @Inject
+    OrderService orderService;
 
     @ArquillianResource
     private URL base;
@@ -37,7 +48,11 @@ public class ProductRepositoryTest {
                 .addAsLibraries(pomFile.resolve("org.slf4j:slf4j-simple").withTransitivity().asFile())
                 .addAsLibraries(pomFile.resolve("org.apache.deltaspike.core:deltaspike-core-api").withTransitivity().asFile())
                 .addAsLibraries(pomFile.resolve("org.apache.deltaspike.core:deltaspike-core-impl").withTransitivity().asFile())
-                .addClass(ProductRepository.class)
+                .addClasses(OrderProductQuantityDTO.class, CustomerDTO.class, OrderDTO.class, ProductDTO.class)
+                .addClasses(ProductService.class, CustomerService.class, OrderService.class)
+                .addClass(Startup.class)
+                .addClasses(ProductServiceImpl.class, CustomerServiceImpl.class, OrderServiceImpl.class)
+                .addClasses(ProductRepository.class, CustomerRepository.class, OrderRepository.class)
                 .addClasses(ProductEntity.class, CustomerEntity.class, OrderEntity.class)
                 .addClasses(LoggerProducer.class, EntityManagerProducer.class)
                 .addAsResource("persistence.xml", "META-INF/persistence.xml")
@@ -45,9 +60,25 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void greet() {
-        ProductEntity entity = new ProductEntity();
-        productRepository.saveProduct(entity);
-        assertNotNull(entity.getId());
+    public void addOrderToCustomerFromStartup() {
+        Collection<ProductDTO> allProducts = productService.getAllProducts();
+        assertThat(allProducts.size()).isEqualTo(4);
+
+        Collection<CustomerDTO> allCustomers = customerServce.getAllCustomers();
+        assertThat(allCustomers.size()).isEqualTo(1);
+
+        CustomerDTO customerDTO = allCustomers.iterator().next();
+
+        assertThat(customerServce.getCustomerById(customerDTO.getId()).getOrders().size()).isEqualTo(0);
+
+        OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setOrderDate(LocalDate.MIN);
+        orderDTO.setPrice_w_VAT(BigDecimal.ONE);
+        orderDTO.setPrice_wo_VAT(BigDecimal.TEN);
+        orderDTO.setProducts(allProducts.stream().map(a -> new OrderProductQuantityDTO(a.getId(), 1l)).collect(Collectors.toList()));
+
+        orderService.saveOrder(customerDTO.getId(), orderDTO);
+
+        assertThat(customerServce.getCustomerById(customerDTO.getId()).getOrders().size()).isEqualTo(1);
     }
 }
