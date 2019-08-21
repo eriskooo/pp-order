@@ -1,18 +1,17 @@
 package sk.pazurik.customerservice.application.product;
 
-import java.util.Collection;
-
 import org.slf4j.Logger;
+import sk.pazurik.customerservice.domain.product.ProductDTO;
 import sk.pazurik.customerservice.domain.product.ProductService;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import sk.pazurik.customerservice.domain.product.ProductDTO;
+import java.util.Collection;
 
 @Path("product")
 @Consumes({MediaType.APPLICATION_JSON})

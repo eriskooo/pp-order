@@ -1,30 +1,24 @@
 package sk.pazurik.customerservice.domain.order;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.MapKey;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import sk.pazurik.customerservice.domain.customer.CustomerEntity;
 import sk.pazurik.customerservice.domain.product.ProductEntity;
 import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
 
+import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+
 @Entity
-@NamedQuery(name = OrderEntity.GET_ALL_ORDERS, query = "select o from OrderEntity o")
-@NamedQuery(name = OrderEntity.GET_ORDERS, query = "select o from OrderEntity o where o.price_wo_VAT > :minPrice")
+@NamedQuery(name = OrderEntity.GET_ALL_ORDERS, query = "select o from OrderEntity o where o.customer = :customer")
+@NamedQuery(name = OrderEntity.GET_ORDERS_BY_MIN_PRICE, query = "select o from OrderEntity o where o.customer = :customer and o.price_wo_VAT > :minPrice")
+@NamedQuery(name = OrderEntity.GET_ORDERS_BY_ID, query = "select o from OrderEntity o where o.customer = :customer and o.id = :id")
 public class OrderEntity extends AbstractEntity<Long> {
     
     public static final String GET_ALL_ORDERS = "GetAllOrders";
-    public static final String GET_ORDERS = "GetOrders";
+    public static final String GET_ORDERS_BY_MIN_PRICE = "GetOrders";
+    public static final String GET_ORDERS_BY_ID = "GetOrdersById";
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +29,7 @@ public class OrderEntity extends AbstractEntity<Long> {
     private BigDecimal price_wo_VAT;
 
     private BigDecimal price_w_VAT;
-    
+
     @ManyToOne
     private CustomerEntity customer; 
     
@@ -91,6 +85,11 @@ public class OrderEntity extends AbstractEntity<Long> {
     public CustomerEntity getCustomer() {
         return customer;
     }
+
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
+    }
+
 
     public Map<ProductEntity, Long> getProducts() {
         return products;

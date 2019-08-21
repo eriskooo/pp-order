@@ -1,18 +1,17 @@
 package sk.pazurik.customerservice.domain.order;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
+import sk.pazurik.customerservice.domain.product.ProductEntity;
+import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
+
 import javax.json.bind.annotation.JsonbDateFormat;
-import javax.persistence.ManyToOne;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import sk.pazurik.customerservice.domain.customer.CustomerDTO;
-import sk.pazurik.customerservice.domain.product.ProductEntity;
-import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class OrderDTO extends AbstractValueObject {
     private Long id;

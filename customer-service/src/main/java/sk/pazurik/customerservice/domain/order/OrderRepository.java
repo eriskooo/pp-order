@@ -1,11 +1,13 @@
 package sk.pazurik.customerservice.domain.order;
 
-import java.math.BigDecimal;
-import java.util.List;
+import org.slf4j.Logger;
+import sk.pazurik.customerservice.domain.customer.CustomerEntity;
+import sk.pazurik.customerservice.infrastructure.stereotype.Repository;
+
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import org.slf4j.Logger;
-import sk.pazurik.customerservice.infrastructure.stereotype.Repository;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Repository
 public class OrderRepository {
@@ -15,46 +17,39 @@ public class OrderRepository {
     @Inject
     private Logger logger;
 
-    public List<OrderEntity> getAllOrders() {
-        return entityManager.createNamedQuery(OrderEntity.GET_ALL_ORDERS, OrderEntity.class).getResultList();
-    }
-    
-    public List<OrderEntity> getOrders(BigDecimal minPrice) {
-        return entityManager.createNamedQuery(OrderEntity.GET_ORDERS, OrderEntity.class).setParameter("minPrice", minPrice).getResultList();
+    public List<OrderEntity> getAllOrders(Long customerId) {
+        CustomerEntity customerEntity = entityManager.find(CustomerEntity.class, customerId);
+        return entityManager.createNamedQuery(OrderEntity.GET_ALL_ORDERS, OrderEntity.class).setParameter("customer", customerEntity).getResultList();
     }
 
-    public OrderEntity getOrderById(Long id) {
-        return entityManager.find(OrderEntity.class, id);
+    public List<OrderEntity> getOrders(Long customerId, BigDecimal minPrice) {
+        CustomerEntity customerEntity = entityManager.find(CustomerEntity.class, customerId);
+        return entityManager.createNamedQuery(OrderEntity.GET_ORDERS_BY_MIN_PRICE, OrderEntity.class).setParameter("customer", customerEntity).setParameter("minPrice", minPrice).getResultList();
     }
 
-    public void saveOrder(OrderEntity order) {
-        if (order.getId() == null) {
-            entityManager.persist(order);
-            logger.info("persisted, {}" , order);
+    public OrderEntity getOrderById(Long customerId, Long id) {
+        CustomerEntity customerEntity = entityManager.find(CustomerEntity.class, customerId);
+        return entityManager.createNamedQuery(OrderEntity.GET_ORDERS_BY_ID, OrderEntity.class).setParameter("customer", customerEntity).setParameter("id", customerId).getSingleResult();
+    }
+
+    public void saveOrUpdateOrder(Long customerId, OrderEntity orderEntity) {
+        CustomerEntity customerEntity = entityManager.find(CustomerEntity.class, customerId);
+        orderEntity.setCustomer(customerEntity);
+
+        if (orderEntity.getId() == null) {
+            customerEntity.getOrders().add(orderEntity);
+            entityManager.persist(customerEntity);
+            logger.info("persisted, {}", customerEntity);
         } else {
-            entityManager.merge(order);
-            logger.info("merged, {}" ,order);
+            entityManager.merge(orderEntity);
+            logger.info("merged, {}", orderEntity);
         }
     }
 
-    public boolean updateOrder(OrderEntity order) {
-        if (order.getId() != null) {
-            OrderEntity orderEntity = entityManager.find(OrderEntity.class, order.getId());
-            if (orderEntity != null) {
-                entityManager.merge(order);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean deleteOrder(Long id) {
-        OrderEntity orderEntity = entityManager.find(OrderEntity.class, id);
-        if (orderEntity == null) {
-            return false;
-        } else {
-            entityManager.remove(orderEntity);
-            return true;
-        }
+    public void deleteOrder(Long customerId, OrderEntity orderEntity) {
+        CustomerEntity customerEntity = entityManager.find(CustomerEntity.class, customerId);
+        customerEntity.getOrders().remove(orderEntity);
+        entityManager.merge(customerEntity);
+        logger.info("persisted, {}", customerEntity);
     }
 }

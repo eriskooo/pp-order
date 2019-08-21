@@ -1,10 +1,11 @@
 package sk.pazurik.customerservice.domain.customer;
 
-import java.util.Collection;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import org.slf4j.Logger;
 import sk.pazurik.customerservice.infrastructure.stereotype.Repository;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import java.util.Collection;
 
 @Repository
 public class CustomerRepository {

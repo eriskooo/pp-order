@@ -1,7 +1,8 @@
 package sk.pazurik.customerservice.domain.order;
 
-import javax.validation.constraints.NotNull;
 import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
+
+import javax.validation.constraints.NotNull;
 
 public class OrderProductQuantityDTO extends AbstractValueObject {
 

@@ -1,14 +1,15 @@
 package sk.pazurik.customerservice.domain.customer;
 
+import sk.pazurik.customerservice.domain.order.OrderDTO;
+import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Pattern;
-import sk.pazurik.customerservice.domain.order.OrderDTO;
-import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
 
 public class CustomerDTO extends AbstractValueObject {
 

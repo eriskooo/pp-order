@@ -1,11 +1,12 @@
 package sk.pazurik.customerservice.domain.customer;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
-import javax.inject.Inject;
-import javax.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import sk.pazurik.customerservice.infrastructure.stereotype.Service;
+
+import javax.inject.Inject;
+import javax.persistence.EntityNotFoundException;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
