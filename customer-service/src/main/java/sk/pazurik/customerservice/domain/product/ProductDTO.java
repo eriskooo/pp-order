@@ -1,12 +1,13 @@
 package sk.pazurik.customerservice.domain.product;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
+import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
+
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
+import java.math.BigDecimal;
+import java.util.Arrays;
 
 public class ProductDTO extends AbstractValueObject {
 

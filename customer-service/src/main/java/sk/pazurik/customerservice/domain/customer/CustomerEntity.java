@@ -1,12 +1,13 @@
 package sk.pazurik.customerservice.domain.customer;
 
+import sk.pazurik.customerservice.domain.order.OrderEntity;
+import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
-import javax.persistence.*;
-import sk.pazurik.customerservice.domain.order.OrderEntity;
-import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
 
 @Entity
 @NamedQuery(name = CustomerEntity.GET_ALL_CUSTOMERS, query = "select c from CustomerEntity c")
@@ -30,7 +31,7 @@ public class CustomerEntity extends AbstractEntity<Long> {
     @Basic(fetch = FetchType.LAZY)
     private byte[] photo;
     
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Collection<OrderEntity> orders = new ArrayList<>();
     
     public CustomerEntity() {

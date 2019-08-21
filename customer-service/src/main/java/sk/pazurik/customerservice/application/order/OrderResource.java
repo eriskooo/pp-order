@@ -1,25 +1,19 @@
 package sk.pazurik.customerservice.application.order;
 
-import java.math.BigDecimal;
-import java.util.Collection;
-import javax.inject.Inject;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import sk.pazurik.customerservice.domain.order.OrderDTO;
 import sk.pazurik.customerservice.domain.order.OrderService;
 
-@Path("order")
+import javax.inject.Inject;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.math.BigDecimal;
+import java.util.Collection;
+
+@Path("customer/{customerId}/order")
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 public class OrderResource {
@@ -31,58 +25,63 @@ public class OrderResource {
     private OrderService orderService;
 
     @GET
-    public Response getAllOrders() {
+    public Response getAllOrders(@PathParam("customerId") @NotNull Long customerId) {
         logger.info("called getAllProducts");
 
-        Collection<OrderDTO> orders = orderService.getAllOrders();
-
+        Collection<OrderDTO> orders = orderService.getAllOrders(customerId);
+        
         return Response.ok(orders).status(Response.Status.OK).build();
     }
     
     @GET
-    @Path("getOrdersWithMinPrice{minPrice}")
-    public Response getOrders(@PathParam("minPrice") @NotNull BigDecimal minPrice) {
+    @Path("getOrdersByMinPrice/{minPrice}")
+    public Response getOrders(@PathParam("customerId") @NotNull Long customerId,
+                              @PathParam("minPrice") @NotNull BigDecimal minPrice) {
         logger.info("called getOrders, {}", minPrice);
 
-        Collection<OrderDTO> orders = orderService.getOrders(minPrice);
+        Collection<OrderDTO> orders = orderService.getOrdersByMinPrice(customerId, minPrice);
 
         return Response.ok(orders).status(Response.Status.OK).build();
     }
 
     @GET
     @Path("{id}")
-    public Response getOrderById(@PathParam("id") @NotNull Long id) {
+    public Response getOrderById(@PathParam("customerId") @NotNull Long customerId,
+                                 @PathParam("id") @NotNull Long id) {
         logger.info("called getOrderById, {}", id);
 
-        OrderDTO dto = orderService.getOrderById(id);
+        OrderDTO dto = orderService.getOrderById(customerId, id);
 
         return Response.ok(dto).status(Response.Status.OK).build();
     }
     
     @POST
-    public Response createOrder(@Valid OrderDTO order) {
+    public Response createOrder(@PathParam("customerId") @NotNull Long customerId,
+                                @Valid OrderDTO order) {
         logger.info("called createOrder");
 
-        orderService.saveOrder(order);
+        orderService.saveOrder(customerId, order);
 
         return Response.ok(order.getId()).status(Response.Status.CREATED).build();
     }
 
     @PUT
-    public Response updateOrder(@Valid OrderDTO order) {
+    public Response updateOrder(@PathParam("customerId") @NotNull Long customerId,
+                                @Valid OrderDTO order) {
         logger.info("called updateOrder");
 
-        orderService.updateOrder(order);
+        orderService.updateOrder(customerId, order);
 
         return Response.ok(order.getId()).status(Response.Status.OK).build();
     }
     
     @DELETE
     @Path("{id}")
-    public Response deleteOrder(@PathParam("id") @NotNull Long id) {
+    public Response deleteOrder(@PathParam("customerId") @NotNull Long customerId,
+                                @PathParam("id") @NotNull Long id) {
         logger.info("called deleteOrder");
 
-        orderService.deleteOrder(id);
+        orderService.deleteOrder(customerId, id);
 
         return Response.ok().status(Response.Status.OK).build();
     }    

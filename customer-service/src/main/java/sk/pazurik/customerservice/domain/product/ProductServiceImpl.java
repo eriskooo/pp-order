@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import sk.pazurik.customerservice.infrastructure.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.stream.Collectors;
-import javax.persistence.EntityNotFoundException;
 
 @Service
 public class ProductServiceImpl implements ProductService {

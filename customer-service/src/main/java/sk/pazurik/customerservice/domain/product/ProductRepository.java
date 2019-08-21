@@ -3,9 +3,9 @@ package sk.pazurik.customerservice.domain.product;
 import org.slf4j.Logger;
 import sk.pazurik.customerservice.infrastructure.stereotype.Repository;
 
-import java.util.Collection;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import java.util.Collection;
 
 @Repository
 public class ProductRepository {

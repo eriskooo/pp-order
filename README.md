@@ -15,4 +15,24 @@ tests are done for resteasy, packaging = war, tested on payara-5.192
 
 # customer-service
 
+Customer endpoints:
+GET http://localhost:8080/customer-service/api/v1/customer/{id}
+GET http://localhost:8080/customer-service/api/v1/customer
+POST http://localhost:8080/customer-service/api/v1/customer
+PUT http://localhost:8080/customer-service/api/v1/customer
+DELETE http://localhost:8080/customer-service/api/v1/customer/{id}
+
+Product endpoints:
 GET http://localhost:8080/customer-service/api/v1/product/
+GET http://localhost:8080/customer-service/api/v1/product/{id}
+POST http://localhost:8080/customer-service/api/v1/product/
+PUT http://localhost:8080/customer-service/api/v1/product/
+DELETE http://localhost:8080/customer-service/api/v1/product/{id}
+
+Order endpoints:
+GET http://localhost:8080/customer-service/api/v1/customer/{customerId}/order
+GET http://localhost:8080/customer-service/api/v1/customer/{customerId}/order/{id}
+GET http://localhost:8080/customer-service/api/v1/customer/{customerId}/order/getOrdersByMinPrice/{minPrice}
+POST http://localhost:8080/customer-service/api/v1/customer/{customerId}/order
+PUT http://localhost:8080/customer-service/api/v1/customer/{customerId}/order
+DELETE http://localhost:8080/customer-service/api/v1/customer/{customerId}/order/{id}

@@ -4,15 +4,15 @@ import java.math.BigDecimal;
 import java.util.Collection;
 
 public interface OrderService {
-    Collection<OrderDTO> getAllOrders();
+    Collection<OrderDTO> getAllOrders(Long customerId);
     
-    Collection<OrderDTO> getOrders(BigDecimal minPrice);
+    Collection<OrderDTO> getOrdersByMinPrice(Long customerId, BigDecimal minPrice);
 
-    OrderDTO getOrderById(Long id);
+    OrderDTO getOrderById(Long customerId, Long id);
     
-    void saveOrder(OrderDTO order);
+    void saveOrder(Long customerId, OrderDTO order);
     
-    void updateOrder(OrderDTO order);
+    void updateOrder(Long customerId, OrderDTO order);
     
-    void deleteOrder(Long id);
+    void deleteOrder(Long customerId, Long id);
 }
