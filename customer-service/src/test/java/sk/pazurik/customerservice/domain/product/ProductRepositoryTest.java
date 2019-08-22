@@ -80,5 +80,13 @@ public class ProductRepositoryTest {
         orderService.saveOrder(customerDTO.getId(), orderDTO);
 
         assertThat(customerServce.getCustomerById(customerDTO.getId()).getOrders().size()).isEqualTo(1);
+
+        Long orderId = customerServce.getCustomerById(customerDTO.getId()).getOrders().iterator().next().getId();
+
+        orderService.deleteOrder(customerDTO.getId(), orderId);
+
+        assertThat(customerServce.getCustomerById(customerDTO.getId()).getOrders().size()).isEqualTo(0);
+
+//        assertThat(orderService.getOrderById(customerDTO.getId(), orderId)).isNull();
     }
 }

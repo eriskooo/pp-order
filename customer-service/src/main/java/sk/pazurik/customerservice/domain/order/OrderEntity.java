@@ -30,10 +30,10 @@ public class OrderEntity extends AbstractEntity<Long> {
 
     private BigDecimal price_w_VAT;
 
-    @ManyToOne
+    @OneToOne
     private CustomerEntity customer; 
     
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = false)
     @MapKey(name = "id")
     @ElementCollection
     private Map<ProductEntity, Long> products = new HashMap<>();
