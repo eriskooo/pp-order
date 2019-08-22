@@ -89,6 +89,7 @@ public class ProductServiceImplTest {
     
     @Test
     public void updateProduct() {
+        Mockito.when(repository.getProductById(anyLong())).thenReturn(TestProduct.PRODUCT_1_ENTITY());
         productService.updateProduct(TestProduct.PRODUCT_1_DTO());
         Mockito.verify(repository, Mockito.times(1)).getProductById(anyLong());
         Mockito.verify(repository, Mockito.times(1)).saveOrUpdateProduct(any());
