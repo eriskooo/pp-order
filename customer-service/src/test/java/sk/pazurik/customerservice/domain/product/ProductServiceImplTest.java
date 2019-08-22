@@ -86,7 +86,19 @@ public class ProductServiceImplTest {
         // overime, ci sa zavolal repo 1x
         Mockito.verify(repository, Mockito.times(1)).saveOrUpdateProduct(any());
     }
+    
+    @Test
+    public void updateProduct() {
+        productService.updateProduct(TestProduct.PRODUCT_1_DTO());
+        Mockito.verify(repository, Mockito.times(1)).getProductById(anyLong());
+        Mockito.verify(repository, Mockito.times(1)).saveOrUpdateProduct(any());
+    }
 
-// todo: update, delete, ten boolean neprezijem
-
+    @Test
+    public void updateProductWhenNotFoundShouldThrowException() {
+        thrown.expect(EntityNotFoundException.class);
+        Mockito.when(repository.getProductById(anyLong())).thenReturn(null);
+        productService.updateProduct(TestProduct.PRODUCT_1_DTO());
+        Mockito.verify(repository, Mockito.times(1)).getProductById(anyLong());
+    }
 }
