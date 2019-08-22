@@ -97,6 +97,7 @@ public class OrderDTO extends AbstractValueObject {
                 ", orderDate='" + orderDate + '\'' +
                 ", price_wo_VAT='" + price_wo_VAT + '\'' +
                 ", price_w_VAT='" + price_w_VAT + '\'' +
+                ", products='" + products.toString() + '\'' +
                 '}';
     }
 }

@@ -35,9 +35,7 @@ public class OrderProductQuantityDTO extends AbstractValueObject {
 
     public void setQuantity(Long quantity) {
         this.quantity = quantity;
-    }
-
-    
+    }    
     
     @Override
     protected Object[] values() {

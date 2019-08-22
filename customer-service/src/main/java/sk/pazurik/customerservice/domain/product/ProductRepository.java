@@ -6,6 +6,7 @@ import sk.pazurik.customerservice.infrastructure.stereotype.Repository;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.Collection;
+import javax.persistence.EntityNotFoundException;
 
 @Repository
 public class ProductRepository {
@@ -24,7 +25,7 @@ public class ProductRepository {
         return entityManager.find(ProductEntity.class, id);
     }
 
-    public void saveProduct(ProductEntity product) {
+    public void saveOrUpdateProduct(ProductEntity product) {
         if (product.getId() == null) {
             entityManager.persist(product);
             logger.info("persisted, {}" , product);
@@ -34,24 +35,11 @@ public class ProductRepository {
         }
     }
     
-    public boolean updateProduct(ProductEntity product) {
-        if (product.getId() != null) {
-            ProductEntity productEntity = entityManager.find(ProductEntity.class, product.getId());
-            if (productEntity != null) {
-                entityManager.merge(product);
-                return true;
-            }
+    public void deleteProduct(Long id) {
+        ProductEntity product = entityManager.find(ProductEntity.class, id);
+        if (product == null) {
+            throw new EntityNotFoundException("Product not found");
         }
-        return false;
-    }
-
-    public boolean deleteProduct(Long id) {
-        ProductEntity productEntity = entityManager.find(ProductEntity.class, id);
-        if (productEntity == null) {
-            return false;
-        } else {
-            entityManager.remove(productEntity);
-            return true;
-        }
+        entityManager.remove(product);
     }
 }

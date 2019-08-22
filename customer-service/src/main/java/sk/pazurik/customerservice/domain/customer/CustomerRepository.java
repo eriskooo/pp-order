@@ -6,6 +6,7 @@ import sk.pazurik.customerservice.infrastructure.stereotype.Repository;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.Collection;
+import javax.persistence.EntityNotFoundException;
 
 @Repository
 public class CustomerRepository {
@@ -23,8 +24,8 @@ public class CustomerRepository {
     public CustomerEntity getCustomerById(Long id) {
         return entityManager.find(CustomerEntity.class, id);
     }
-
-    public void saveCustomer(CustomerEntity customer) {
+   
+    public void saveOrUpdateCustomer(CustomerEntity customer) {
         if (customer.getId() == null) {
             entityManager.persist(customer);
             logger.info("persisted, {}" , customer);
@@ -34,24 +35,11 @@ public class CustomerRepository {
         }
     }
 
-    public boolean updateCustomer(CustomerEntity customer) {
-        if (customer.getId() != null) {
-            CustomerEntity customerEntity = entityManager.find(CustomerEntity.class, customer.getId());
-            if (customerEntity != null) {
-                entityManager.merge(customer);
-                return true;
-            }
+    public void deleteCustomer(Long id) {
+        CustomerEntity customer = entityManager.find(CustomerEntity.class, id);
+        if (customer == null) {
+            throw new EntityNotFoundException("Customer not found");
         }
-        return false;
-    }
-
-    public boolean deleteCustomer(Long id) {
-        CustomerEntity customerEntity = entityManager.find(CustomerEntity.class, id);
-        if (customerEntity == null) {
-            return false;
-        } else {
-            entityManager.remove(customerEntity);
-            return true;
-        }
+        entityManager.remove(customer);
     }
 }

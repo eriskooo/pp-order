@@ -27,32 +27,31 @@ public class CustomerServiceImpl implements CustomerService{
         CustomerEntity customerEntity = repository.getCustomerById(id);
         if (customerEntity == null) {
             throw new EntityNotFoundException("Customer not found");
-        } else {
-            return new CustomerDTO(customerEntity);
         }
+        return new CustomerDTO(customerEntity);
     }
     
     @Override
     public void saveCustomer(CustomerDTO customerDTO) {
         CustomerEntity customerEntity = new CustomerEntity(customerDTO);
-        repository.saveCustomer(customerEntity);
+        repository.saveOrUpdateCustomer(customerEntity);
         logger.info("saveCustomer ok, {}", customerEntity);
     }
     
     @Override
     public void updateCustomer(CustomerDTO customerDTO) {
-        CustomerEntity customerEntity = new CustomerEntity(customerDTO);
-         if (!repository.updateCustomer(customerEntity)) {
+        CustomerEntity customerEntity = repository.getCustomerById(customerDTO.getId());
+        if (customerEntity == null) {
             throw new EntityNotFoundException("Customer not found");
-         }
-         logger.info("updateCustomer ok, {}", customerEntity);
+        }
+        customerEntity = new CustomerEntity(customerDTO);        
+        repository.saveOrUpdateCustomer(customerEntity);
+        logger.info("updateCustomer ok, {}", customerEntity);
     }
     
     @Override
     public void deleteCustomer(Long id) throws EntityNotFoundException {
-        if (!repository.deleteCustomer(id)) {
-            throw new EntityNotFoundException("Customer not found");
-        }
+        repository.deleteCustomer(id);
         logger.info("deleteCustomer ok, {}", id);
     }
 }

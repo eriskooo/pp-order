@@ -98,4 +98,15 @@ public class OrderEntity extends AbstractEntity<Long> {
     public void setProducts(Map<ProductEntity, Long> products) {
         this.products = products;
     }
+    
+    @Override
+    public String toString() {
+        return "OrderEntity{" + 
+                "id=" + id +
+                ", orderDate='" + orderDate + '\'' +
+                ", price_wo_VAT='" + price_wo_VAT + '\'' +
+                ", price_w_VAT='" + price_w_VAT + '\'' +
+                ", products='" + products.toString() + '\'' +
+                '}';
+    }
 }

@@ -84,7 +84,7 @@ public class ProductServiceImplTest {
         productService.saveProduct(TestProduct.PRODUCT_1_DTO());
 
         // overime, ci sa zavolal repo 1x
-        Mockito.verify(repository, Mockito.times(1)).saveProduct(any());
+        Mockito.verify(repository, Mockito.times(1)).saveOrUpdateProduct(any());
     }
 
 // todo: update, delete, ten boolean neprezijem

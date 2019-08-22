@@ -27,32 +27,31 @@ public class ProductServiceImpl implements ProductService {
         ProductEntity productEntity = repository.getProductById(id);
         if (productEntity == null) {
             throw new EntityNotFoundException("Product not found");
-        } else {
-            return new ProductDTO(productEntity);
         }
+        return new ProductDTO(productEntity);
     }
 
     @Override
     public void saveProduct(ProductDTO productDTO) {
         ProductEntity productEntity = new ProductEntity(productDTO);
-        repository.saveProduct(productEntity);
+        repository.saveOrUpdateProduct(productEntity);
         logger.info("saveProduct ok, {}", productEntity);
     }
     
     @Override
     public void updateProduct(ProductDTO productDTO) {
-        ProductEntity productEntity = new ProductEntity(productDTO);
-         if (!repository.updateProduct(productEntity)) {
+        ProductEntity productEntity = repository.getProductById(productDTO.getId());
+        if (productEntity == null) {
             throw new EntityNotFoundException("Product not found");
-         }
-         logger.info("updateProduct ok, {}", productEntity);
+        }
+        productEntity = new ProductEntity(productDTO);
+        repository.saveOrUpdateProduct(productEntity);
+        logger.info("updateProduct ok, {}", productEntity);
     }
     
     @Override
     public void deleteProduct(Long id) throws EntityNotFoundException {
-        if (!repository.deleteProduct(id)) {
-            throw new EntityNotFoundException("Product not found");
-        }
+        repository.deleteProduct(id);
         logger.info("deleteProduct ok, {}", id);
     }
 }
