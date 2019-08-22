@@ -5,6 +5,7 @@ import sk.pazurik.customerservice.domain.order.OrderDTO;
 import sk.pazurik.customerservice.domain.order.OrderService;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
@@ -17,7 +18,7 @@ import java.util.Collection;
 @Consumes({MediaType.APPLICATION_JSON})
 @Produces({MediaType.APPLICATION_JSON})
 public class OrderResource {
-    
+
     @Inject
     private Logger logger;
 
@@ -29,12 +30,12 @@ public class OrderResource {
         logger.info("called getAllProducts");
 
         Collection<OrderDTO> orders = orderService.getAllOrders(customerId);
-        
+
         return Response.ok(orders).status(Response.Status.OK).build();
     }
-    
+
     @GET
-    @Path("getOrdersByMinPrice/{minPrice}")
+    @Path("getOrdersWithMinPrice{minPrice}")
     public Response getOrders(@PathParam("customerId") @NotNull Long customerId,
                               @PathParam("minPrice") @NotNull BigDecimal minPrice) {
         logger.info("called getOrders, {}", minPrice);
@@ -54,7 +55,7 @@ public class OrderResource {
 
         return Response.ok(dto).status(Response.Status.OK).build();
     }
-    
+
     @POST
     public Response createOrder(@PathParam("customerId") @NotNull Long customerId,
                                 @Valid OrderDTO order) {
@@ -74,7 +75,7 @@ public class OrderResource {
 
         return Response.ok(order.getId()).status(Response.Status.OK).build();
     }
-    
+
     @DELETE
     @Path("{id}")
     public Response deleteOrder(@PathParam("customerId") @NotNull Long customerId,
@@ -84,5 +85,5 @@ public class OrderResource {
         orderService.deleteOrder(customerId, id);
 
         return Response.ok().status(Response.Status.OK).build();
-    }    
+    }
 }

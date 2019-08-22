@@ -2,7 +2,6 @@ package sk.pazurik.customerservice.domain.order;
 
 import org.slf4j.Logger;
 import sk.pazurik.customerservice.domain.customer.CustomerRepository;
-import sk.pazurik.customerservice.domain.customer.CustomerEntity;
 import sk.pazurik.customerservice.domain.product.ProductEntity;
 import sk.pazurik.customerservice.domain.product.ProductRepository;
 import sk.pazurik.customerservice.infrastructure.stereotype.Service;
@@ -37,14 +36,22 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Collection<OrderDTO> getOrdersByMinPrice(Long customerId, BigDecimal minPrice) {
-        List<OrderEntity> orderEntities = orderRepository.getOrdersByMinPrice(customerId, minPrice);
-        return orderEntities.stream().map(OrderDTO::new).collect(Collectors.toList());
+        List<OrderEntity> orderEntities = orderRepository.getOrders(customerId, minPrice);
+        if (orderEntities == null || orderEntities.isEmpty()) {
+            throw new EntityNotFoundException("Order not found");
+        } else {
+            return orderEntities.stream().map(OrderDTO::new).collect(Collectors.toList());
+        }
     }
 
     @Override
     public OrderDTO getOrderById(Long customerId, Long orderId) throws EntityNotFoundException {
         OrderEntity orderEntity = orderRepository.getOrderById(customerId, orderId);
-        return new OrderDTO(orderEntity);
+        if (orderEntity == null) {
+            throw new EntityNotFoundException("Order not found");
+        } else {
+            return new OrderDTO(orderEntity);
+        }
     }
 
     @Override
@@ -54,23 +61,17 @@ public class OrderServiceImpl implements OrderService {
             ProductEntity productEntity = productRepository.getProductById(quantityDTO.getProductId());
             if (productEntity == null) {
                 throw new EntityNotFoundException("Product not found");
+            } else {
+                orderEntity.getProducts().put(productEntity, quantityDTO.getQuantity());
             }
-            orderEntity.getProducts().put(productEntity, quantityDTO.getQuantity());
         }
-        
         orderRepository.saveOrUpdateOrder(customerId, orderEntity);
-        
         logger.info("saveOrUpdateOrder ok, {}", orderEntity);
     }
 
     @Override
     public void updateOrder(Long customerId, OrderDTO orderDTO) {
-        CustomerEntity customerEntity = customerRepository.getCustomerById(customerId);
-        if (customerEntity == null) {
-            throw new EntityNotFoundException("Customer not found");
-        }
-        
-        Optional<OrderEntity> orderEntity = customerEntity.getOrders().stream().filter(a -> a.getId().equals(orderDTO.getId())).findAny();        
+        Optional<OrderEntity> orderEntity = customerRepository.getCustomerById(customerId).getOrders().stream().filter(a -> a.getId().equals(orderDTO.getId())).findAny();
         if (!orderEntity.isPresent()) {
             throw new EntityNotFoundException("Order not found");
         }
@@ -79,18 +80,22 @@ public class OrderServiceImpl implements OrderService {
             ProductEntity productEntity = productRepository.getProductById(quantityDTO.getProductId());
             if (productEntity == null) {
                 throw new EntityNotFoundException("Product not found");
+            } else {
+                orderEntity.get().getProducts().put(productEntity, quantityDTO.getQuantity());
             }
-            orderEntity.get().getProducts().put(productEntity, quantityDTO.getQuantity());
+            orderRepository.saveOrUpdateOrder(customerId, orderEntity.get());
         }
-        
-        orderRepository.saveOrUpdateOrder(customerId, orderEntity.get());
-        
         logger.info("updateOrder ok, {}", orderEntity);
     }
 
     @Override
     public void deleteOrder(Long customerId, Long orderId) throws EntityNotFoundException {
-        orderRepository.deleteOrder(customerId, orderId);
+        Optional<OrderEntity> orderEntity = customerRepository.getCustomerById(customerId).getOrders().stream().filter(a -> a.getId().equals(orderId)).findAny();
+        if (!orderEntity.isPresent()) {
+            throw new EntityNotFoundException("Order not found");
+        }
+
+        orderRepository.deleteOrder(customerId, orderEntity.get());
 
         logger.info("deleteOrder ok, {}", orderId);
     }

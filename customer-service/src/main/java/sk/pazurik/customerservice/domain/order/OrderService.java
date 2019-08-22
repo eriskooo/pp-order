@@ -8,11 +8,11 @@ public interface OrderService {
     
     Collection<OrderDTO> getOrdersByMinPrice(Long customerId, BigDecimal minPrice);
 
-    OrderDTO getOrderById(Long customerId, Long id);
+    OrderDTO getOrderById(Long customerId, Long orderId);
     
     void saveOrder(Long customerId, OrderDTO order);
     
     void updateOrder(Long customerId, OrderDTO order);
     
-    void deleteOrder(Long customerId, Long id);
+    void deleteOrder(Long customerId, Long orderId);
 }
