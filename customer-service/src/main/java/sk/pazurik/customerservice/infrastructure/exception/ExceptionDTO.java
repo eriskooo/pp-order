@@ -2,16 +2,16 @@ package sk.pazurik.customerservice.infrastructure.exception;
 
 import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
 
-public class ValidationExceptionDTO extends AbstractValueObject {
+public class ExceptionDTO extends AbstractValueObject {
 
     private Integer code;
     private String message;
 
-    public ValidationExceptionDTO() {
+    public ExceptionDTO() {
         super();
     }
 
-    public ValidationExceptionDTO(Integer code, String message) {
+    public ExceptionDTO(Integer code, String message) {
         super();
         this.code = code;
         this.message = message;

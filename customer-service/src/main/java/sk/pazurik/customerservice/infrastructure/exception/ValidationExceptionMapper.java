@@ -14,15 +14,15 @@ public class ValidationExceptionMapper implements ExceptionMapper<ConstraintViol
 
     @Override
     public Response toResponse(final ConstraintViolationException e) {
-        Collection<ValidationExceptionDTO> errors =
+        Collection<ExceptionDTO> errors =
                 e.getConstraintViolations()
                         .stream()
-                        .map(err -> new ValidationExceptionDTO(400, err.getMessage())).collect(Collectors.toList());
+                        .map(err -> new ExceptionDTO(400, err.getMessage())).collect(Collectors.toList());
 
 
         return Response.status(Response.Status.BAD_REQUEST)
                 .type(MediaType.APPLICATION_JSON_TYPE)
-                .entity(new GenericEntity<Collection<ValidationExceptionDTO>>(errors) {
+                .entity(new GenericEntity<Collection<ExceptionDTO>>(errors) {
                 })
                 .build();
     }
