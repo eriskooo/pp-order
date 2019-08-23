@@ -17,14 +17,14 @@ public class FileEntity extends AbstractEntity<Long> {
         super();
     }
     
-    public FileEntity(FileDTO dto) {
-        id = dto.getId();
-    }
-
     public FileEntity(byte[] file) {
         this.file = file;
     }
     
+    public FileEntity(FileDTO dto) {
+        id = dto.getId();
+    }
+
     @Override
     public Long getId() {
         return id;

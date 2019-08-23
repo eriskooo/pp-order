@@ -1,7 +1,7 @@
 package sk.pazurik.customerservice.domain.file;
 
 public interface FileService {
-    void saveFile(byte[] file);
+    FileDTO saveFile(byte[] file);
     
     void updateFile(FileDTO file);
     

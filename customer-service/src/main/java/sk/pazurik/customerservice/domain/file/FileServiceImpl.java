@@ -18,10 +18,11 @@ public class FileServiceImpl implements FileService{
     FileRepository repository;
 
     @Override
-    public void saveFile(byte[] file) {
+    public FileDTO saveFile(byte[] file) {
         FileEntity fileEntity = new FileEntity(file);
         repository.saveOrUpdateFile(fileEntity);
         logger.info("saveFile ok, {}", fileEntity);
+        return new FileDTO(fileEntity);
     }
     
     @Override

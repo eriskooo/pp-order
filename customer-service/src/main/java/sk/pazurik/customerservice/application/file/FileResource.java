@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
+import sk.pazurik.customerservice.domain.file.FileDTO;
 import sk.pazurik.customerservice.domain.file.FileService;
 
 @Path("file")
@@ -32,9 +33,9 @@ public class FileResource {
         logger.info("called uploadPicture");
 
         byte[] fileBytes = getImage(file);
-        fileService.saveFile(fileBytes);
+        FileDTO fileDTO = fileService.saveFile(fileBytes);
 
-        return Response.ok().status(Response.Status.CREATED).build();
+        return Response.ok(fileDTO).status(Response.Status.CREATED).build();
     }
     
     public static byte[] getImage(File file) {
