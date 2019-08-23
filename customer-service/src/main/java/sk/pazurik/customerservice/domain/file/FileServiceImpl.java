@@ -41,4 +41,17 @@ public class FileServiceImpl implements FileService{
         repository.deleteFile(id);
         logger.info("deleteFile ok, {}", id);
     }
+
+    @Override
+    public byte[] getFileById(Long id) {
+        FileEntity fileEntity = repository.getFileById(id);
+        if (fileEntity == null) {
+            throw new EntityNotFoundException("File not found");
+        }
+
+        byte[] stream = fileEntity.getFile();
+
+        logger.info("getFileById ok, {}", id);
+        return stream;
+    }
 }

@@ -6,4 +6,6 @@ public interface FileService {
     void updateFile(FileDTO file);
     
     void deleteFile(Long id);
+
+    byte[] getFileById(final Long id);
 }

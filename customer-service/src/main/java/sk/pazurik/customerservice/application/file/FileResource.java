@@ -1,21 +1,19 @@
 package sk.pazurik.customerservice.application.file;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import javax.imageio.ImageIO;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.validation.constraints.NotNull;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 
 import org.slf4j.Logger;
 import sk.pazurik.customerservice.domain.file.FileDTO;
 import sk.pazurik.customerservice.domain.file.FileService;
+import sun.misc.IOUtils;
 
 @Path("file")
 public class FileResource {
@@ -29,31 +27,31 @@ public class FileResource {
     @POST
     @Consumes({MediaType.APPLICATION_OCTET_STREAM, "image/png", "image/jpeg", "image/jpg"})
     @Produces({MediaType.APPLICATION_JSON})
-    public Response saveFile(File file) {
+    public Response saveFile(InputStream stream) {
         logger.info("called uploadPicture");
 
-        byte[] fileBytes = getImage(file);
+        byte[] fileBytes = new byte[0];
+        try {
+            fileBytes = new byte[stream.available()];
+            stream.read(fileBytes);
+        } catch (IOException e) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
         FileDTO fileDTO = fileService.saveFile(fileBytes);
 
         return Response.ok(fileDTO).status(Response.Status.CREATED).build();
     }
-    
-    public static byte[] getImage(File file) {
-      if(file.exists()){
-         try {
-            String extension = "";
-            int i = file.getAbsolutePath().lastIndexOf('.');
-            if (i > 0) {
-                extension = file.getAbsolutePath().substring(i+1);
-            }
-            BufferedImage bufferedImage=ImageIO.read(file);
-            ByteArrayOutputStream byteOutStream=new ByteArrayOutputStream();
-            ImageIO.write(bufferedImage, extension, byteOutStream);
-            return byteOutStream.toByteArray();
-         } catch (IOException e) {
-            e.printStackTrace();
-         }
-      }
-      return null;
-   }
+
+    @GET
+    @Path("/{fileId}")
+    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_OCTET_STREAM, "image/png", "image/jpeg", "image/jpg"})
+    public Response getFile(@PathParam("fileId") @NotNull final Long fileId) {
+        logger.info("called getFile");
+
+        byte[] image = fileService.getFileById(fileId);
+
+        return Response.ok(image, MediaType.APPLICATION_OCTET_STREAM).build();
+    }
 }
