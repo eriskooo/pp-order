@@ -1,11 +1,10 @@
 package sk.pazurik.customerservice.application.file;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import javax.imageio.ImageIO;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -15,35 +14,45 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
+import sk.pazurik.customerservice.domain.file.FileService;
 
 @Path("file")
-@Consumes({MediaType.APPLICATION_JSON})
-@Produces({MediaType.APPLICATION_JSON})
 public class FileResource {
     
     @Inject
     private Logger logger;
 
+    @Inject
+    private FileService fileService;
+    
     @POST
-    @Path("upload")
     @Consumes({MediaType.APPLICATION_OCTET_STREAM, "image/png", "image/jpeg", "image/jpg"})
-    @Produces(MediaType.TEXT_PLAIN)
-    public Response uploadPicture(File file) {
-        try (Reader reader = new FileReader(file)) {
+    @Produces({MediaType.APPLICATION_JSON})
+    public Response saveFile(File file) {
+        logger.info("called uploadPicture");
 
-            //employee.setPicture(Files.readAllBytes(Paths.get(file.toURI())));
-            ///persistenceService.saveFile(employee);
+        byte[] fileBytes = getImage(file);
+        fileService.saveFile(fileBytes);
 
-            int totalsize = 0;
-            int count = 0;
-            final char[] buffer = new char[256];
-            while ((count = reader.read(buffer)) != -1) {
-                totalsize += count;
+        return Response.ok().status(Response.Status.CREATED).build();
+    }
+    
+    public static byte[] getImage(File file) {
+      if(file.exists()){
+         try {
+            String extension = "";
+            int i = file.getAbsolutePath().lastIndexOf('.');
+            if (i > 0) {
+                extension = file.getAbsolutePath().substring(i+1);
             }
-            return Response.ok(totalsize).build();
-        } catch (IOException e) {
+            BufferedImage bufferedImage=ImageIO.read(file);
+            ByteArrayOutputStream byteOutStream=new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, extension, byteOutStream);
+            return byteOutStream.toByteArray();
+         } catch (IOException e) {
             e.printStackTrace();
-            return Response.serverError().build();
-        }
-    }    
+         }
+      }
+      return null;
+   }
 }
