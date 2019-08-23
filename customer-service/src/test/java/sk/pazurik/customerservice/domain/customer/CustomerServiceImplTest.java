@@ -88,9 +88,7 @@ public class CustomerServiceImplTest {
     @Test
     public void deleteCustomerWhenNotFoundShouldThrowException() {
         thrown.expect(EntityNotFoundException.class);
-
         Mockito.doThrow(EntityNotFoundException.class).when(repository).deleteCustomer(anyLong());
-
         customerService.deleteCustomer(anyLong());
         Mockito.verify(repository, Mockito.times(1)).deleteCustomer(anyLong());        
     }

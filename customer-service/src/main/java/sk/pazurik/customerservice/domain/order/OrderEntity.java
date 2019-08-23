@@ -47,6 +47,9 @@ public class OrderEntity extends AbstractEntity<Long> {
         orderDate = dto.getOrderDate();
         price_wo_VAT = dto.getPrice_wo_VAT();
         price_w_VAT = dto.getPrice_w_VAT();
+        for (OrderProductQuantityDTO quantityDTO : dto.getProducts()) {
+            products.put(new ProductEntity(quantityDTO.getProductId()), quantityDTO.getQuantity());
+        }
     }
     
     @Override
@@ -89,7 +92,6 @@ public class OrderEntity extends AbstractEntity<Long> {
     public void setCustomer(CustomerEntity customer) {
         this.customer = customer;
     }
-
 
     public Map<ProductEntity, Long> getProducts() {
         return products;

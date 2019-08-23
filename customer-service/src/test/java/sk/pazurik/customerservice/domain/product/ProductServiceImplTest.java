@@ -102,4 +102,18 @@ public class ProductServiceImplTest {
         productService.updateProduct(TestProduct.PRODUCT_1_DTO());
         Mockito.verify(repository, Mockito.times(1)).getProductById(anyLong());
     }
+    
+    @Test
+    public void deleteProduct() {
+        productService.deleteProduct(anyLong());
+        Mockito.verify(repository, Mockito.times(1)).deleteProduct(anyLong());
+    }
+
+    @Test
+    public void deleteProductWhenNotFoundShouldThrowException() {
+        thrown.expect(EntityNotFoundException.class);
+        Mockito.doThrow(EntityNotFoundException.class).when(repository).deleteProduct(anyLong());
+        productService.deleteProduct(anyLong());
+        Mockito.verify(repository, Mockito.times(1)).deleteProduct(anyLong());        
+    }
 }

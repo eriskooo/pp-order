@@ -34,6 +34,10 @@ public class ProductEntity extends AbstractEntity<Long> {
         super();
     }
     
+    public ProductEntity(Long id) {
+        this.id = id;
+    }
+    
     public ProductEntity(ProductDTO dto) {
         id = dto.getId();
         name = dto.getName();

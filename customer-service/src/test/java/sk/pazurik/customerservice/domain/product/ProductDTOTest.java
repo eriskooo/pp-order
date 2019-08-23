@@ -1,6 +1,5 @@
 package sk.pazurik.customerservice.domain.product;
 
-
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

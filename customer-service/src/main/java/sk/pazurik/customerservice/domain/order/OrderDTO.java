@@ -87,7 +87,7 @@ public class OrderDTO extends AbstractValueObject {
 
     @Override
     protected Object[] values() {
-        return new Object[]{id, orderDate, price_wo_VAT, price_w_VAT};
+        return new Object[]{id, orderDate, price_wo_VAT, price_w_VAT, products};
     }
     
     @Override
