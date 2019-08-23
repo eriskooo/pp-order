@@ -17,6 +17,7 @@ import java.util.Collections;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 
 import sk.pazurik.customerservice.domain.customer.CustomerRepository;
 import sk.pazurik.customerservice.domain.customer.TestCustomer;
@@ -96,10 +97,9 @@ public class OrderServiceImplTest {
     public void saveOrder() {
         Mockito.when(productRepository.getProductById(anyLong())).thenReturn(TestProduct.PRODUCT_1_ENTITY());
         orderService.saveOrder(anyLong(), TestOrder.ORDER_1_DTO());
+
         Mockito.verify(productRepository, Mockito.times(1)).getProductById(anyLong());
-        
-        orderService.saveOrder(anyLong(), TestOrder.ORDER_1_DTO());
-        Mockito.verify(orderRepository, Mockito.times(1)).saveOrUpdateOrder(anyLong(), TestOrder.ORDER_1_ENTITY());
+        Mockito.verify(orderRepository, Mockito.times(1)).saveOrUpdateOrder(anyLong(), eq(TestOrder.ORDER_1_ENTITY()));
     }
     
     @Test
@@ -108,38 +108,22 @@ public class OrderServiceImplTest {
         Mockito.when(productRepository.getProductById(anyLong())).thenReturn(null);
         orderService.saveOrder(anyLong(), TestOrder.ORDER_1_DTO());
         Mockito.verify(productRepository, Mockito.times(1)).getProductById(anyLong());
-
-        thrown.expect(EntityNotFoundException.class);
-        Mockito.doThrow(EntityNotFoundException.class).when(orderRepository).saveOrUpdateOrder(anyLong(), TestOrder.ORDER_1_ENTITY());
-        orderService.saveOrder(anyLong(), TestOrder.ORDER_1_DTO());
-        Mockito.verify(orderRepository, Mockito.times(1)).saveOrUpdateOrder(anyLong(), TestOrder.ORDER_1_ENTITY());
     }
 
     @Test
     public void updateOrder() {
         Mockito.when(customerRepository.getCustomerById(anyLong())).thenReturn(TestCustomer.CUSTOMER_1_ENTITY());
+        Mockito.when(productRepository.getProductById(anyLong())).thenReturn(TestProduct.PRODUCT_1_ENTITY());
+
         orderService.updateOrder(anyLong(), TestOrder.ORDER_1_DTO());
         Mockito.verify(customerRepository, Mockito.times(1)).getCustomerById(anyLong());
-        
-        Mockito.when(productRepository.getProductById(anyLong())).thenReturn(TestProduct.PRODUCT_1_ENTITY());
-        orderService.updateOrder(anyLong(), TestOrder.ORDER_1_DTO());
-        Mockito.verify(productRepository, Mockito.times(1)).getProductById(anyLong());
-        
-        orderService.updateOrder(anyLong(), TestOrder.ORDER_1_DTO());
-        Mockito.verify(orderRepository, Mockito.times(1)).saveOrUpdateOrder(anyLong(), TestOrder.ORDER_1_ENTITY());
     }
 
     @Test
     public void updateOrderWhenCustomerNotFoundShouldThrowException() {
         thrown.expect(EntityNotFoundException.class);
-        Mockito.when(customerRepository.getCustomerById(anyLong())).thenReturn(null);
         orderService.saveOrder(anyLong(), TestOrder.ORDER_1_DTO());
         Mockito.verify(customerRepository, Mockito.times(1)).getCustomerById(anyLong());
-       
-        thrown.expect(EntityNotFoundException.class);
-        Mockito.when(productRepository.getProductById(anyLong())).thenReturn(null);
-        orderService.saveOrder(anyLong(), TestOrder.ORDER_1_DTO());
-        Mockito.verify(productRepository, Mockito.times(1)).getProductById(anyLong());
     }
 
     @Test
