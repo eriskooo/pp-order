@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.Collection;
+import org.apache.deltaspike.core.util.StringUtils;
 
 @Path("customer/{customerId}/order")
 @Consumes({MediaType.APPLICATION_JSON})
@@ -25,22 +26,16 @@ public class OrderResource {
     private OrderService orderService;
 
     @GET
-    public Response getAllOrders(@PathParam("customerId") @NotNull Long customerId) {
-        logger.info("called getAllOrders");
-
-        Collection<OrderDTO> orders = orderService.getAllOrders(customerId);
-        
-        return Response.ok(orders).status(Response.Status.OK).build();
-    }
-    
-    @GET
-    @Path("getOrdersByMinPrice/{minPrice}")
-    public Response getOrders(@PathParam("customerId") @NotNull Long customerId,
-                              @PathParam("minPrice") @NotNull BigDecimal minPrice) {
-        logger.info("called getOrders, {}", minPrice);
-
-        Collection<OrderDTO> orders = orderService.getOrdersByMinPrice(customerId, minPrice);
-
+    public Response getAllOrders(@PathParam("customerId") @NotNull Long customerId,
+                                 @QueryParam("minPrice") BigDecimal minPrice) {
+        Collection<OrderDTO> orders;
+        if (minPrice == null) {
+            logger.info("called getAllOrders");
+            orders = orderService.getAllOrders(customerId);
+        } else {
+            logger.info("called getOrders, {}", minPrice);
+            orders = orderService.getOrdersByMinPrice(customerId, minPrice);
+        }
         return Response.ok(orders).status(Response.Status.OK).build();
     }
 

@@ -11,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
+import org.apache.deltaspike.core.util.StringUtils;
 
 @Path("customer")
 @Consumes({MediaType.APPLICATION_JSON})
@@ -24,21 +25,15 @@ public class CustomerResource {
     private CustomerService customerService;
 
     @GET
-    public Response getAllCustomers() {
-        logger.info("called getAllCustomers");
-
-        Collection<CustomerDTO> customers = customerService.getAllCustomers();
-
-        return Response.ok(customers).status(Response.Status.OK).build();
-    }
-
-    @GET
-    @Path("getCustomersByName/{name}")
-    public Response getCustomersByName(@PathParam("name") @NotNull String name) {
-        logger.info("called getCustomersByName, {}", name);
-
-        Collection<CustomerDTO> customers = customerService.getCustomersByName(name);
-
+    public Response getAllCustomers(@QueryParam("name") String name) {
+        Collection<CustomerDTO> customers;
+        if (StringUtils.isEmpty(name)) {
+            logger.info("called getAllCustomers");
+            customers = customerService.getAllCustomers();
+        } else {
+            logger.info("called getCustomersByName, {}", name);
+            customers = customerService.getCustomersByName(name);
+        }
         return Response.ok(customers).status(Response.Status.OK).build();
     }
         

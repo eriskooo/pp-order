@@ -11,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
+import org.apache.deltaspike.core.util.StringUtils;
 
 @Path("product")
 @Consumes({MediaType.APPLICATION_JSON})
@@ -24,21 +25,15 @@ public class ProductResource {
     private ProductService productService;
 
     @GET
-    public Response getAllProducts() {
-        logger.info("called getAllProducts");
-
-        Collection<ProductDTO> products = productService.getAllProducts();
-
-        return Response.ok(products).status(Response.Status.OK).build();
-    }
-    
-    @GET
-    @Path("getProductsByName/{name}")
-    public Response getProductsByName(@PathParam("name") @NotNull String name) {
-        logger.info("called getProductsByName, {}", name);
-
-        Collection<ProductDTO> products = productService.getProductsByName(name);
-
+    public Response getAllProducts(@QueryParam("name") String name) {
+        Collection<ProductDTO> products;
+        if (StringUtils.isEmpty(name)) {
+            logger.info("called getAllProducts");
+            products = productService.getAllProducts();
+        } else {
+            logger.info("called getProductsByName, {}", name);
+            products = productService.getProductsByName(name);
+        }
         return Response.ok(products).status(Response.Status.OK).build();
     }
 
