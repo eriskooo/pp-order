@@ -18,15 +18,6 @@ public class FileServiceImpl implements FileService{
     FileRepository repository;
 
     @Override
-    public FileDTO getFileById(Long id) throws EntityNotFoundException {
-        FileEntity fileEntity = repository.getFileById(id);
-        if (fileEntity == null) {
-            throw new EntityNotFoundException("File not found");
-        }
-        return new FileDTO(fileEntity);
-    }
-    
-    @Override
     public void saveFile(byte[] file) {
         FileEntity fileEntity = new FileEntity(file);
         repository.saveOrUpdateFile(fileEntity);
