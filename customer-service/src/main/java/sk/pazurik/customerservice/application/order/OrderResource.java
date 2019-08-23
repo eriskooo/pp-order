@@ -26,7 +26,7 @@ public class OrderResource {
 
     @GET
     public Response getAllOrders(@PathParam("customerId") @NotNull Long customerId) {
-        logger.info("called getAllProducts");
+        logger.info("called getAllOrders");
 
         Collection<OrderDTO> orders = orderService.getAllOrders(customerId);
         

@@ -7,10 +7,12 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 @Entity
-@NamedQuery(name = ProductEntity.GET_ALL_PRODUCTS, query = "select p from ProductEntity p")
+@NamedQuery(name = ProductEntity.GET_ALL_PRODUCTS, query = "select p from ProductEntity p")//
+@NamedQuery(name = ProductEntity.GET_PRODUCTS_BY_NAME, query = "select p from ProductEntity p where lower(p.name) like CONCAT('%',:name,'%')")
 public class ProductEntity extends AbstractEntity<Long> {
 
     public static final String GET_ALL_PRODUCTS = "GetAllProducts";
+    public static final String GET_PRODUCTS_BY_NAME = "GetProductsByName";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

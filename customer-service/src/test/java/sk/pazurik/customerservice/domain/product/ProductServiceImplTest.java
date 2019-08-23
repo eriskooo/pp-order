@@ -35,55 +35,47 @@ public class ProductServiceImplTest {
 
     @Test
     public void getAllProductShouldReturnCollection() {
-        // tu povieme, co urobi mockovane repository, ked sa zavola
         Mockito.when(repository.getAllProducts()).thenReturn(Collections.singletonList(TestProduct.PRODUCT_1_ENTITY()));
-
-        // tu zavolame funkcionalitu
         Collection<ProductDTO> allProducts = productService.getAllProducts();
-
-        // overime, ci sa zavolal repo 1x
         Mockito.verify(repository, Mockito.times(1)).getAllProducts();
-
-        // overime, ci sa id vysledku = id entity, ktory vratil mock
         assertThat(allProducts.iterator().next().getId()).isEqualTo(TestProduct.PRODUCT_1_ENTITY().getId());
+    }
+    
+    @Test
+    public void getProductsByNameShouldReturnCollection() {
+        Mockito.when(repository.getProductsByName(Mockito.anyString())).thenReturn(Collections.singletonList(TestProduct.PRODUCT_1_ENTITY()));
+        Collection<ProductDTO> products = productService.getProductsByName(Mockito.anyString());
+        Mockito.verify(repository, Mockito.times(1)).getProductsByName(Mockito.anyString());
+        assertThat(products.iterator().next().getId()).isEqualTo(TestProduct.PRODUCT_1_ENTITY().getId());
+    }
+    
+    @Test
+    public void getProductsByNameWhenNotFoundShouldReturnCollection() {
+        thrown.expect(EntityNotFoundException.class);
+        Mockito.doThrow(EntityNotFoundException.class).when(repository).getProductsByName(Mockito.anyString());
+        Collection<ProductDTO> products = productService.getProductsByName(Mockito.anyString());
+        Mockito.verify(repository, Mockito.times(1)).getProductsByName(Mockito.anyString());
     }
 
     @Test
     public void getProductByIdShouldReturnProduct() {
-        // tu povieme, co urobi mockovane repository, ked sa zavola
         Mockito.when(repository.getProductById(anyLong())).thenReturn(TestProduct.PRODUCT_1_ENTITY());
-
-        // tu zavolame funkcionalitu
         ProductDTO product = productService.getProductById(TestProduct.PRODUCT_1_ENTITY().getId());
-
-        // overime, ci sa zavolal repo 1x
         Mockito.verify(repository, Mockito.times(1)).getProductById(anyLong());
-
-        // overime, ci sa id vysledku = id entity, ktory vratil mock
         assertThat(product.getId()).isEqualTo(TestProduct.PRODUCT_1_ENTITY().getId());
     }
 
     @Test
     public void getProductByIdWhenNotFoundShouldThrowException() {
-        // ocakaveme vynimku
         thrown.expect(EntityNotFoundException.class);
-
-        // tu povieme, co urobi mockovane repository, ked sa zavola
         Mockito.when(repository.getProductById(anyLong())).thenReturn(null);
-
-        // tu zavolame funkcionalitu
         ProductDTO product = productService.getProductById(777l);
-
-        // overime, ci sa zavolal repo 1x
         Mockito.verify(repository, Mockito.times(1)).getProductById(anyLong());
     }
 
     @Test
     public void saveProduct() {
-        // tu zavolame funkcionalitu
         productService.saveProduct(TestProduct.PRODUCT_1_DTO());
-
-        // overime, ci sa zavolal repo 1x
         Mockito.verify(repository, Mockito.times(1)).saveOrUpdateProduct(any());
     }
     

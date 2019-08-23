@@ -33,6 +33,16 @@ public class CustomerResource {
     }
 
     @GET
+    @Path("getCustomersByName/{name}")
+    public Response getCustomersByName(@PathParam("name") @NotNull String name) {
+        logger.info("called getCustomersByName, {}", name);
+
+        Collection<CustomerDTO> customers = customerService.getCustomersByName(name);
+
+        return Response.ok(customers).status(Response.Status.OK).build();
+    }
+        
+    @GET
     @Path("{id}")
     public Response getCustomerById(@PathParam("id") @NotNull Long id) {
         logger.info("called getCustomerById, {}", id);

@@ -11,9 +11,11 @@ import java.util.stream.Collectors;
 
 @Entity
 @NamedQuery(name = CustomerEntity.GET_ALL_CUSTOMERS, query = "select c from CustomerEntity c")
+@NamedQuery(name = CustomerEntity.GET_CUSTOMERS_BY_NAME, query = "select c from CustomerEntity c where lower(c.name) like CONCAT('%',:name,'%')")
 public class CustomerEntity extends AbstractEntity<Long> {
 
     public static final String GET_ALL_CUSTOMERS = "GetAllCustomers";
+    public static final String GET_CUSTOMERS_BY_NAME = "GetCustomersByName";
         
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

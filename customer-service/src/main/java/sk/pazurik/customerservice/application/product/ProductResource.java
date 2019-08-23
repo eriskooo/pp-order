@@ -31,6 +31,16 @@ public class ProductResource {
 
         return Response.ok(products).status(Response.Status.OK).build();
     }
+    
+    @GET
+    @Path("getProductsByName/{name}")
+    public Response getProductsByName(@PathParam("name") @NotNull String name) {
+        logger.info("called getProductsByName, {}", name);
+
+        Collection<ProductDTO> products = productService.getProductsByName(name);
+
+        return Response.ok(products).status(Response.Status.OK).build();
+    }
 
     @GET
     @Path("{id}")

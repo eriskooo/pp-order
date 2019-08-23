@@ -6,6 +6,7 @@ import sk.pazurik.customerservice.infrastructure.stereotype.Repository;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 @Repository
@@ -21,6 +22,14 @@ public class ProductRepository {
         return entityManager.createNamedQuery(ProductEntity.GET_ALL_PRODUCTS, ProductEntity.class).getResultList();
     }
 
+    public List<ProductEntity> getProductsByName(String name) {
+        List<ProductEntity> products = entityManager.createNamedQuery(ProductEntity.GET_PRODUCTS_BY_NAME, ProductEntity.class).setParameter("name", name).getResultList();
+        if (products == null || products.isEmpty()) {
+            throw new EntityNotFoundException("Product not found");
+        }
+        return products;
+    }
+    
     public ProductEntity getProductById(Long id) {
         return entityManager.find(ProductEntity.class, id);
     }

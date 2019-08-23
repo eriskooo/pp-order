@@ -5,6 +5,8 @@ import java.util.Collection;
 public interface CustomerService {
     Collection<CustomerDTO> getAllCustomers();
 
+    Collection<CustomerDTO> getCustomersByName(String name);
+    
     CustomerDTO getCustomerById(Long id);
     
     void saveCustomer(CustomerDTO customer);

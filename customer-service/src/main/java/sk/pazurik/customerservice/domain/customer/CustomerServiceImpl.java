@@ -6,6 +6,7 @@ import sk.pazurik.customerservice.infrastructure.stereotype.Service;
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +21,12 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public Collection<CustomerDTO> getAllCustomers() {
         return repository.getAllCustomers().stream().map(CustomerDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<CustomerDTO> getCustomersByName(String name) {
+        List<CustomerEntity> customers = repository.getCustomersByName(name.toLowerCase());
+        return customers.stream().map(CustomerDTO::new).collect(Collectors.toList());
     }
 
     @Override

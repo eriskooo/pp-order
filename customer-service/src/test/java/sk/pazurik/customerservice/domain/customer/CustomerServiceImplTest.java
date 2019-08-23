@@ -42,6 +42,22 @@ public class CustomerServiceImplTest {
     }
 
     @Test
+    public void getCustomersByNameShouldReturnCollection() {
+        Mockito.when(repository.getCustomersByName(Mockito.anyString())).thenReturn(Collections.singletonList(TestCustomer.CUSTOMER_1_ENTITY()));
+        Collection<CustomerDTO> customers = customerService.getCustomersByName(Mockito.anyString());
+        Mockito.verify(repository, Mockito.times(1)).getCustomersByName(Mockito.anyString());
+        assertThat(customers.iterator().next().getId()).isEqualTo(TestCustomer.CUSTOMER_1_ENTITY().getId());
+    }
+    
+    @Test
+    public void getCustomersByNameWhenNotFoundShouldReturnCollection() {
+        thrown.expect(EntityNotFoundException.class);
+        Mockito.doThrow(EntityNotFoundException.class).when(repository).getCustomersByName(Mockito.anyString());
+        Collection<CustomerDTO> customers = customerService.getCustomersByName(Mockito.anyString());
+        Mockito.verify(repository, Mockito.times(1)).getCustomersByName(Mockito.anyString());
+    }
+
+    @Test
     public void getCustomerByIdShouldReturnCustomer() {
         Mockito.when(repository.getCustomerById(anyLong())).thenReturn(TestCustomer.CUSTOMER_1_ENTITY());
         CustomerDTO customer = customerService.getCustomerById(TestCustomer.CUSTOMER_1_ENTITY().getId());

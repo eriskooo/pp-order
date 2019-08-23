@@ -6,6 +6,7 @@ import sk.pazurik.customerservice.infrastructure.stereotype.Service;
 import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +23,12 @@ public class ProductServiceImpl implements ProductService {
         return repository.getAllProducts().stream().map(ProductDTO::new).collect(Collectors.toList());
     }
 
+    @Override
+    public Collection<ProductDTO> getProductsByName(String name) {
+        List<ProductEntity> products = repository.getProductsByName(name.toLowerCase());
+        return products.stream().map(ProductDTO::new).collect(Collectors.toList());
+    }
+    
     @Override
     public ProductDTO getProductById(Long id) throws EntityNotFoundException {
         ProductEntity productEntity = repository.getProductById(id);

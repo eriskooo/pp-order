@@ -6,6 +6,7 @@ import sk.pazurik.customerservice.infrastructure.stereotype.Repository;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import java.util.Collection;
+import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 @Repository
@@ -21,6 +22,14 @@ public class CustomerRepository {
         return entityManager.createNamedQuery(CustomerEntity.GET_ALL_CUSTOMERS, CustomerEntity.class).getResultList();
     }
 
+    public List<CustomerEntity> getCustomersByName(String name) {
+        List<CustomerEntity> customers = entityManager.createNamedQuery(CustomerEntity.GET_CUSTOMERS_BY_NAME, CustomerEntity.class).setParameter("name", name).getResultList();
+        if (customers == null || customers.isEmpty()) {
+            throw new EntityNotFoundException("Customer not found");
+        }
+        return customers;
+    }
+        
     public CustomerEntity getCustomerById(Long id) {
         return entityManager.find(CustomerEntity.class, id);
     }

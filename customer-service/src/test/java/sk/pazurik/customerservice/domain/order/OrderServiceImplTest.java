@@ -103,7 +103,7 @@ public class OrderServiceImplTest {
     }
     
     @Test
-    public void saveOrderWhenProductNotFoundShouldThrowException() {
+    public void saveOrderWhenEntityNotFoundShouldThrowException() {
         thrown.expect(EntityNotFoundException.class);
         Mockito.when(productRepository.getProductById(anyLong())).thenReturn(null);
         orderService.saveOrder(anyLong(), TestOrder.ORDER_1_DTO());
@@ -120,7 +120,7 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void updateOrderWhenCustomerNotFoundShouldThrowException() {
+    public void updateOrderWhenEntityNotFoundShouldThrowException() {
         thrown.expect(EntityNotFoundException.class);
         orderService.saveOrder(anyLong(), TestOrder.ORDER_1_DTO());
         Mockito.verify(customerRepository, Mockito.times(1)).getCustomerById(anyLong());
