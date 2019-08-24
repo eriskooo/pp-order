@@ -7,9 +7,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import sk.pazurik.customerservice.domain.file.FileDTO;
 
 public class CustomerDTO extends AbstractValueObject {
 
@@ -27,7 +27,7 @@ public class CustomerDTO extends AbstractValueObject {
     @Email(message="Please provide a valid email address")
     private String email;
     
-    private byte[] photo;
+    private FileDTO photo;
 
     private Collection<OrderDTO> orders = new ArrayList<>();
     
@@ -41,7 +41,6 @@ public class CustomerDTO extends AbstractValueObject {
         surname = entity.getSurname();
         phone = entity.getPhone();
         email = entity.getEmail();
-        photo = entity.getPhoto();
         orders = entity.getOrders().stream().map(OrderDTO::new).collect(Collectors.toList());
     }
 
@@ -85,14 +84,14 @@ public class CustomerDTO extends AbstractValueObject {
         this.email = email;
     }
 
-    public byte[] getPhoto() {
+    public FileDTO getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(FileDTO photo) {
         this.photo = photo;
     }
-
+    
     public Collection<OrderDTO> getOrders() {
         return orders;
     }
@@ -103,7 +102,7 @@ public class CustomerDTO extends AbstractValueObject {
 
     @Override
     protected Object[] values() {
-        return new Object[]{id, name, surname, phone, email, photo};
+        return new Object[]{id, name, surname, phone, email};
     }
     
     @Override
@@ -114,7 +113,6 @@ public class CustomerDTO extends AbstractValueObject {
                 ", surname='" + surname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", photo=" + Arrays.toString(photo) +
                 '}';
     } 
 }

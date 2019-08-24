@@ -4,7 +4,7 @@ import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Arrays;
+import sk.pazurik.customerservice.domain.file.FileEntity;
 
 @Entity
 @NamedQuery(name = ProductEntity.GET_ALL_PRODUCTS, query = "select p from ProductEntity p")//
@@ -28,9 +28,8 @@ public class ProductEntity extends AbstractEntity<Long> {
 
     private String ean;
 
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] picture;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private FileEntity picture;
 
     public ProductEntity() {
         super();
@@ -47,7 +46,6 @@ public class ProductEntity extends AbstractEntity<Long> {
         price_wo_VAT = dto.getPrice_wo_VAT();
         price_w_VAT = dto.getPrice_w_VAT();
         ean = dto.getEan();
-        picture = dto.getPicture();
     }
 
     @Override
@@ -99,11 +97,11 @@ public class ProductEntity extends AbstractEntity<Long> {
         this.ean = ean;
     }
 
-    public byte[] getPicture() {
+    public FileEntity getPicture() {
         return picture;
     }
 
-    public void setPicture(byte[] picture) {
+    public void setPictureId(FileEntity picture) {
         this.picture = picture;
     }
 
@@ -116,7 +114,6 @@ public class ProductEntity extends AbstractEntity<Long> {
                 ", price_wo_VAT=" + price_wo_VAT +
                 ", price_w_VAT=" + price_w_VAT +
                 ", ean='" + ean + '\'' +
-                ", picture=" + Arrays.toString(picture) +
                 '}';
     }
 }

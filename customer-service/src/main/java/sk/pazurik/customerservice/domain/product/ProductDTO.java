@@ -7,7 +7,7 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.util.Arrays;
+import sk.pazurik.customerservice.domain.file.FileDTO;
 
 public class ProductDTO extends AbstractValueObject {
 
@@ -29,7 +29,7 @@ public class ProductDTO extends AbstractValueObject {
     @Size(min=13, max=13, message = "EAN must have exactly 13 characters")
     private String ean;
     
-    private byte[] picture;
+    private FileDTO picture;
     
     public ProductDTO() {
         super();
@@ -42,7 +42,6 @@ public class ProductDTO extends AbstractValueObject {
         price_wo_VAT = entity.getPrice_wo_VAT();
         price_w_VAT = entity.getPrice_w_VAT();
         ean = entity.getEan();
-        picture = entity.getPicture();
     }
 
     public Long getId() {
@@ -93,17 +92,17 @@ public class ProductDTO extends AbstractValueObject {
         this.ean = ean;
     }
 
-    public byte[] getPicture() {
+    public FileDTO getPicture() {
         return picture;
     }
 
-    public void setPicture(byte[] picture) {
+    public void setPicture(FileDTO picture) {
         this.picture = picture;
     }
     
     @Override
     protected Object[] values() {
-        return new Object[]{id, name, description, price_wo_VAT, price_w_VAT, ean, picture};
+        return new Object[]{id, name, description, price_wo_VAT, price_w_VAT, ean};
     }
 
     @Override
@@ -115,7 +114,6 @@ public class ProductDTO extends AbstractValueObject {
                 ", price_wo_VAT=" + price_wo_VAT +
                 ", price_w_VAT=" + price_w_VAT +
                 ", ean='" + ean + '\'' +
-                ", picture=" + Arrays.toString(picture) +
                 '}';
     }
 }

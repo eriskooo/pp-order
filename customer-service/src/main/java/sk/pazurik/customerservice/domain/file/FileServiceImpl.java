@@ -1,7 +1,5 @@
 package sk.pazurik.customerservice.domain.file;
 
-import java.io.File;
-import java.sql.Blob;
 import org.slf4j.Logger;
 import sk.pazurik.customerservice.infrastructure.stereotype.Service;
 
@@ -26,12 +24,12 @@ public class FileServiceImpl implements FileService{
     }
     
     @Override
-    public void updateFile(FileDTO fileDTO) {
-        FileEntity fileEntity = repository.getFileById(fileDTO.getId());
+    public void updateFile(Long id, byte[] file) {
+        FileEntity fileEntity = repository.getFileById(id);
         if (fileEntity == null) {
             throw new EntityNotFoundException("File not found");
         }
-        fileEntity = new FileEntity(fileDTO);        
+        fileEntity = new FileEntity(id, file);        
         repository.saveOrUpdateFile(fileEntity);
         logger.info("updateFile ok, {}", fileEntity);
     }

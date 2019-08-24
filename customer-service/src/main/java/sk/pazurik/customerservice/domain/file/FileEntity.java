@@ -24,7 +24,12 @@ public class FileEntity extends AbstractEntity<Long> {
     public FileEntity(FileDTO dto) {
         id = dto.getId();
     }
-
+    
+    public FileEntity(long id, byte[] file) {
+        this.id = id;
+        this.file = file;
+    }
+    
     @Override
     public Long getId() {
         return id;

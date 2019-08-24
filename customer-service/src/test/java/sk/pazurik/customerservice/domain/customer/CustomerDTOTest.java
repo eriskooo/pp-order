@@ -16,7 +16,6 @@ public class CustomerDTOTest {
         assertThat(dto.getSurname()).isEqualTo(entity.getSurname());
         assertThat(dto.getPhone()).isEqualTo(entity.getPhone());
         assertThat(dto.getEmail()).isEqualTo(entity.getEmail());
-        assertThat(dto.getPhoto()).isEqualTo(entity.getPhoto());
     }
 
     @Test
@@ -29,6 +28,5 @@ public class CustomerDTOTest {
         assertThat(dto.getSurname()).isEqualTo(entity.getSurname());
         assertThat(dto.getPhone()).isEqualTo(entity.getPhone());
         assertThat(dto.getEmail()).isEqualTo(entity.getEmail());
-        assertThat(dto.getPhoto()).isEqualTo(entity.getPhoto());
     }
 }

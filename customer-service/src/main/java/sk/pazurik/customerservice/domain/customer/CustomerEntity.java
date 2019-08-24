@@ -5,9 +5,9 @@ import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
+import sk.pazurik.customerservice.domain.file.FileEntity;
 
 @Entity
 @NamedQuery(name = CustomerEntity.GET_ALL_CUSTOMERS, query = "select c from CustomerEntity c")
@@ -29,9 +29,8 @@ public class CustomerEntity extends AbstractEntity<Long> {
     
     private String email;
 
-    @Lob
-    @Basic(fetch = FetchType.LAZY)
-    private byte[] photo;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private FileEntity photo;
     
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<OrderEntity> orders = new ArrayList<>();
@@ -46,7 +45,6 @@ public class CustomerEntity extends AbstractEntity<Long> {
         surname = dto.getSurname();
         phone = dto.getPhone();
         email = dto.getEmail();
-        photo = dto.getPhoto();
         orders = dto.getOrders().stream().map(OrderEntity::new).collect(Collectors.toList());
     }
 
@@ -91,11 +89,11 @@ public class CustomerEntity extends AbstractEntity<Long> {
         this.email = email;
     }
 
-    public byte[] getPhoto() {
+    public FileEntity getPhoto() {
         return photo;
     }
 
-    public void setPhoto(byte[] photo) {
+    public void setPhoto(FileEntity photo) {
         this.photo = photo;
     }
 
@@ -115,7 +113,6 @@ public class CustomerEntity extends AbstractEntity<Long> {
                 ", surname='" + surname + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", photo=" + Arrays.toString(photo) +
                 '}';
     }
 }
