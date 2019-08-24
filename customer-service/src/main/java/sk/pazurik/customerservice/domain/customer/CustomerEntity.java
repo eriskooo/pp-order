@@ -1,6 +1,5 @@
 package sk.pazurik.customerservice.domain.customer;
 
-import sk.pazurik.customerservice.domain.file.FileEntity;
 import sk.pazurik.customerservice.domain.order.OrderEntity;
 import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
 
@@ -29,9 +28,8 @@ public class CustomerEntity extends AbstractEntity<Long> {
     
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    private FileEntity photo;
-    
+    private Long pictureId;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<OrderEntity> orders = new ArrayList<>();
     
@@ -45,6 +43,7 @@ public class CustomerEntity extends AbstractEntity<Long> {
         surname = dto.getSurname();
         phone = dto.getPhone();
         email = dto.getEmail();
+        pictureId = dto.getPictureId();
         orders = dto.getOrders().stream().map(OrderEntity::new).collect(Collectors.toList());
     }
 
@@ -89,12 +88,12 @@ public class CustomerEntity extends AbstractEntity<Long> {
         this.email = email;
     }
 
-    public FileEntity getPhoto() {
-        return photo;
+    public Long getPictureId() {
+        return pictureId;
     }
 
-    public void setPhoto(FileEntity photo) {
-        this.photo = photo;
+    public void setPictureId(Long pictureId) {
+        this.pictureId = pictureId;
     }
 
     public Collection<OrderEntity> getOrders() {

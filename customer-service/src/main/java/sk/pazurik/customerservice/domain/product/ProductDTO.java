@@ -1,6 +1,5 @@
 package sk.pazurik.customerservice.domain.product;
 
-import sk.pazurik.customerservice.domain.file.FileDTO;
 import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
 
 import javax.validation.constraints.DecimalMin;
@@ -28,8 +27,8 @@ public class ProductDTO extends AbstractValueObject {
     
     @Size(min=13, max=13, message = "EAN must have exactly 13 characters")
     private String ean;
-    
-    private FileDTO picture;
+
+    private Long pictureId;
     
     public ProductDTO() {
         super();
@@ -42,6 +41,7 @@ public class ProductDTO extends AbstractValueObject {
         price_wo_VAT = entity.getPrice_wo_VAT();
         price_w_VAT = entity.getPrice_w_VAT();
         ean = entity.getEan();
+        pictureId = entity.getPictureId();
     }
 
     public Long getId() {
@@ -92,14 +92,14 @@ public class ProductDTO extends AbstractValueObject {
         this.ean = ean;
     }
 
-    public FileDTO getPicture() {
-        return picture;
+    public Long getPictureId() {
+        return pictureId;
     }
 
-    public void setPicture(FileDTO picture) {
-        this.picture = picture;
+    public void setPictureId(Long pictureId) {
+        this.pictureId = pictureId;
     }
-    
+
     @Override
     protected Object[] values() {
         return new Object[]{id, name, description, price_wo_VAT, price_w_VAT, ean};

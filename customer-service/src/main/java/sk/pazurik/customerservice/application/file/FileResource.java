@@ -24,17 +24,17 @@ public class FileResource {
     @GET
     @Path("/{fileId}")
     @Consumes({MediaType.APPLICATION_JSON})
-    @Produces({MediaType.APPLICATION_OCTET_STREAM, "image/png", "image/jpeg", "image/jpg"})
+    @Produces({MediaType.APPLICATION_OCTET_STREAM})
     public Response getFile(@PathParam("fileId") @NotNull final Long fileId) {
         logger.info("called getFile");
 
         byte[] image = fileService.getFileById(fileId);
 
-        return Response.ok(image, MediaType.APPLICATION_OCTET_STREAM).build();
+        return Response.ok(image).build();
     }
 
     @POST
-    @Consumes({MediaType.APPLICATION_OCTET_STREAM, "image/png", "image/jpeg", "image/jpg"})
+    @Consumes({MediaType.APPLICATION_OCTET_STREAM})
     @Produces({MediaType.APPLICATION_JSON})
     public Response saveFile(InputStream stream) {
         logger.info("called saveFile");
@@ -54,7 +54,7 @@ public class FileResource {
     
     @PUT
     @Path("/{fileId}")
-    @Consumes({MediaType.APPLICATION_OCTET_STREAM, "image/png", "image/jpeg", "image/jpg"})
+    @Consumes({MediaType.APPLICATION_OCTET_STREAM})
     @Produces({MediaType.APPLICATION_JSON})
     public Response updateFile(@PathParam("fileId") @NotNull final Long fileId, 
                                 InputStream stream) {

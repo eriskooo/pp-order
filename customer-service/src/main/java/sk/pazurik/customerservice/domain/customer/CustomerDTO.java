@@ -1,6 +1,5 @@
 package sk.pazurik.customerservice.domain.customer;
 
-import sk.pazurik.customerservice.domain.file.FileDTO;
 import sk.pazurik.customerservice.domain.order.OrderDTO;
 import sk.pazurik.customerservice.infrastructure.value.AbstractValueObject;
 
@@ -26,8 +25,8 @@ public class CustomerDTO extends AbstractValueObject {
     
     @Email(message="Please provide a valid email address")
     private String email;
-    
-    private FileDTO photo;
+
+    private Long pictureId;
 
     private Collection<OrderDTO> orders = new ArrayList<>();
     
@@ -41,6 +40,7 @@ public class CustomerDTO extends AbstractValueObject {
         surname = entity.getSurname();
         phone = entity.getPhone();
         email = entity.getEmail();
+        pictureId = entity.getPictureId();
         orders = entity.getOrders().stream().map(OrderDTO::new).collect(Collectors.toList());
     }
 
@@ -84,14 +84,14 @@ public class CustomerDTO extends AbstractValueObject {
         this.email = email;
     }
 
-    public FileDTO getPhoto() {
-        return photo;
+    public Long getPictureId() {
+        return pictureId;
     }
 
-    public void setPhoto(FileDTO photo) {
-        this.photo = photo;
+    public void setPictureId(Long pictureId) {
+        this.pictureId = pictureId;
     }
-    
+
     public Collection<OrderDTO> getOrders() {
         return orders;
     }

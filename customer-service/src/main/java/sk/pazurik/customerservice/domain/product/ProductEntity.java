@@ -1,6 +1,5 @@
 package sk.pazurik.customerservice.domain.product;
 
-import sk.pazurik.customerservice.domain.file.FileEntity;
 import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
 
 import javax.persistence.*;
@@ -28,8 +27,7 @@ public class ProductEntity extends AbstractEntity<Long> {
 
     private String ean;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    private FileEntity picture;
+    private Long pictureId;
 
     public ProductEntity() {
         super();
@@ -46,6 +44,7 @@ public class ProductEntity extends AbstractEntity<Long> {
         price_wo_VAT = dto.getPrice_wo_VAT();
         price_w_VAT = dto.getPrice_w_VAT();
         ean = dto.getEan();
+        pictureId = dto.getPictureId();
     }
 
     @Override
@@ -97,12 +96,12 @@ public class ProductEntity extends AbstractEntity<Long> {
         this.ean = ean;
     }
 
-    public FileEntity getPicture() {
-        return picture;
+    public Long getPictureId() {
+        return pictureId;
     }
 
-    public void setPictureId(FileEntity picture) {
-        this.picture = picture;
+    public void setPictureId(Long pictureId) {
+        this.pictureId = pictureId;
     }
 
     @Override
