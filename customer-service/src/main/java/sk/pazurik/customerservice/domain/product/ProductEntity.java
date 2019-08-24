@@ -1,10 +1,10 @@
 package sk.pazurik.customerservice.domain.product;
 
+import sk.pazurik.customerservice.domain.file.FileEntity;
 import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import sk.pazurik.customerservice.domain.file.FileEntity;
 
 @Entity
 @NamedQuery(name = ProductEntity.GET_ALL_PRODUCTS, query = "select p from ProductEntity p")//

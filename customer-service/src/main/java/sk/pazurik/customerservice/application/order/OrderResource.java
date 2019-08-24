@@ -12,7 +12,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
 import java.util.Collection;
-import org.apache.deltaspike.core.util.StringUtils;
 
 @Path("customer/{customerId}/order")
 @Consumes({MediaType.APPLICATION_JSON})

@@ -1,5 +1,6 @@
 package sk.pazurik.customerservice.application.customer;
 
+import org.apache.deltaspike.core.util.StringUtils;
 import org.slf4j.Logger;
 import sk.pazurik.customerservice.domain.customer.CustomerDTO;
 import sk.pazurik.customerservice.domain.customer.CustomerService;
@@ -11,7 +12,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
-import org.apache.deltaspike.core.util.StringUtils;
 
 @Path("customer")
 @Consumes({MediaType.APPLICATION_JSON})

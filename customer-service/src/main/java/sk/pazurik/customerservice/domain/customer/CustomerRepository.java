@@ -5,9 +5,9 @@ import sk.pazurik.customerservice.infrastructure.stereotype.Repository;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.List;
-import javax.persistence.EntityNotFoundException;
 
 @Repository
 public class CustomerRepository {

@@ -6,11 +6,11 @@ import sk.pazurik.customerservice.infrastructure.stereotype.Repository;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.NoResultException;
 
 @Repository
 public class OrderRepository {

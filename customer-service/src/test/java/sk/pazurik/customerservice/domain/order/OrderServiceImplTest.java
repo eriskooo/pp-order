@@ -9,20 +9,17 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.slf4j.Logger;
+import sk.pazurik.customerservice.domain.customer.CustomerRepository;
+import sk.pazurik.customerservice.domain.customer.TestCustomer;
+import sk.pazurik.customerservice.domain.product.ProductRepository;
+import sk.pazurik.customerservice.domain.product.TestProduct;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.eq;
-
-import sk.pazurik.customerservice.domain.customer.CustomerRepository;
-import sk.pazurik.customerservice.domain.customer.TestCustomer;
-import sk.pazurik.customerservice.domain.product.ProductRepository;
-import sk.pazurik.customerservice.domain.product.TestProduct;
+import static org.mockito.ArgumentMatchers.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceImplTest {

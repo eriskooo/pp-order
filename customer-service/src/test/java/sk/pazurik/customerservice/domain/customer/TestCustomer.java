@@ -1,7 +1,8 @@
 package sk.pazurik.customerservice.domain.customer;
 
-import java.util.Collections;
 import sk.pazurik.customerservice.domain.order.TestOrder;
+
+import java.util.Collections;
 
 public class TestCustomer {
 

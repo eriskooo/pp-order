@@ -1,15 +1,16 @@
 package sk.pazurik.customerservice.application.file;
 
-import java.io.*;
+import org.slf4j.Logger;
+import sk.pazurik.customerservice.domain.file.FileDTO;
+import sk.pazurik.customerservice.domain.file.FileService;
+
 import javax.inject.Inject;
 import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import org.slf4j.Logger;
-import sk.pazurik.customerservice.domain.file.FileDTO;
-import sk.pazurik.customerservice.domain.file.FileService;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Path("file")
 public class FileResource {

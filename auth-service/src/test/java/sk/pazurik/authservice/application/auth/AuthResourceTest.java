@@ -1,6 +1,5 @@
 package sk.pazurik.authservice.application.auth;
 
-import sk.pazurik.authservice.application.auth.AuthResource;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

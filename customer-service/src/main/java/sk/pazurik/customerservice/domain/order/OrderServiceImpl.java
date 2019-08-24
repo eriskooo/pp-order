@@ -1,8 +1,8 @@
 package sk.pazurik.customerservice.domain.order;
 
 import org.slf4j.Logger;
-import sk.pazurik.customerservice.domain.customer.CustomerRepository;
 import sk.pazurik.customerservice.domain.customer.CustomerEntity;
+import sk.pazurik.customerservice.domain.customer.CustomerRepository;
 import sk.pazurik.customerservice.domain.product.ProductEntity;
 import sk.pazurik.customerservice.domain.product.ProductRepository;
 import sk.pazurik.customerservice.infrastructure.stereotype.Service;

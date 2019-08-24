@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.stream.IntStream;
-import sk.pazurik.customerservice.domain.file.FileDTO;
 
 @ApplicationScoped
 public class Startup {

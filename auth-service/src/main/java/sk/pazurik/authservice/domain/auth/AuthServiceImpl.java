@@ -11,9 +11,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
-import static sk.pazurik.authservice.infrastructure.security.JwtClaims.CUSTOM_CLAIM_ROLES;
-import static sk.pazurik.authservice.infrastructure.security.JwtClaims.OPEN_ID_STANDARD_CLAIM_FIRSTNAME;
-import static sk.pazurik.authservice.infrastructure.security.JwtClaims.OPEN_ID_STANDARD_CLAIM_LASTNAME;
+import static sk.pazurik.authservice.infrastructure.security.JwtClaims.*;
 
 @Service
 public class AuthServiceImpl implements AuthService {

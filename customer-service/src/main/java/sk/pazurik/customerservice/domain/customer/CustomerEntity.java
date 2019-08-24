@@ -1,5 +1,6 @@
 package sk.pazurik.customerservice.domain.customer;
 
+import sk.pazurik.customerservice.domain.file.FileEntity;
 import sk.pazurik.customerservice.domain.order.OrderEntity;
 import sk.pazurik.customerservice.infrastructure.entity.AbstractEntity;
 
@@ -7,7 +8,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
-import sk.pazurik.customerservice.domain.file.FileEntity;
 
 @Entity
 @NamedQuery(name = CustomerEntity.GET_ALL_CUSTOMERS, query = "select c from CustomerEntity c")

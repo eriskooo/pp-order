@@ -1,10 +1,11 @@
 package sk.pazurik.customerservice.domain.order;
 
+import sk.pazurik.customerservice.domain.customer.TestCustomer;
+import sk.pazurik.customerservice.domain.product.TestProduct;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Collections;
-import sk.pazurik.customerservice.domain.customer.TestCustomer;
-import sk.pazurik.customerservice.domain.product.TestProduct;
 
 public class TestOrder {
 
